@@ -137,6 +137,23 @@ li:hover {
 	width: 100%;
 
 }
+
+.gallery .cat-id-1 {
+	/* display: none; */
+	border: solid red
+}
+
+.gallery .cat-id-2 {
+	/* display: none; */
+	border: solid green
+}
+
+.gallery .cat-id-3 {
+	/* display: none; */
+	border: solid yellow
+}
+
+
 #contact {
 	width: 50%;
 margin: auto;

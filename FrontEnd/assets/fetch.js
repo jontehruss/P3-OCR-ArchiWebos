@@ -19,24 +19,25 @@ fetch(worksUrl)
 
     // cibler l'élément dans lequel je vais créer les items
     const collection = document.getElementById('collection');
-    console.log(portfolio)
+    // console.log(portfolio)
 
     // pour chaque objet renvoyé par l'API
     data.forEach(obj => {
+        // Cibler le container où insérer les éléments et le stocker dans collection
+        let collection = document.querySelector("#collection")
+
         // Crée un container Figure
+        let element = document.createElement('figure');
 
-        var element = document.createElement('figure');
-        console.log(element) ;
-
-        // element.setAttribute('src', obj.imageUrl);
+        // Insérer le code HTML dans les containers Figure
         element.innerHTML = `<img src="${obj.imageUrl}" alt="${obj.title}"> <figcaption>${obj.title}</figcaption>`;
-   
-        
-        // TO CHECK
-        document.body.appendChild(element);
+
+        console.log(`${obj.category.name}`)
+        element.classList.add(`cat-id-${obj.category.id}`)
+          
+        // ajouter au container stocké dans collection les elements figure
+        collection.appendChild(element);
         // document.body.insertBefore(element, collection)
-
-
 
     });
   })
@@ -44,7 +45,7 @@ fetch(worksUrl)
 
 
   .catch(error => {
-    console.error('There was a problem with the fetch operation:', error);
+    console.error("Erreur durant l'opération fetch:", error);
   });
 
 
