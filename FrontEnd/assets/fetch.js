@@ -11,7 +11,7 @@ async function getData () {
 
   const response = await fetch(worksUrl);
   globalData  = await response.json();
-  console.table(globalData )
+  // console.table(globalData )
 
 }
 getData ();
@@ -58,26 +58,54 @@ fetch(worksUrl)
 function createFilters (){
   // Créer un div pour les boutons filtres
   let zoneFiltres = document.createElement('div');
-  zoneFiltres.innerHTML = `<input type="submit" value="coucou" class="cat-id-"></input>`
+  zoneFiltres.className = 'btn-list';
 
-  // Voir pour l'utilisation d'une boucle ici
+  let all = document.createElement('input');
+  all.type ='button';
+  all.value = 'Tous';
+  all.className ='btn-cat';
+  all.id = '0'
+  zoneFiltres.appendChild(all);   
 
-  //  insérer le div dans la section portfolio après le titre
-  let titrePortfolio = document.querySelector('#portfolio > h2');
-  titrePortfolio.appendChild(zoneFiltres);
 
-  // zoneBouton.appendChild(boutonFiltre)
-  // let collection = document.querySelector("#collection")
-  // collection.insertBefore(collection,figure)
+
+  for(let i= 0 ; i < 3 ; i++) {
+    let bouton = document.createElement('input');
+    bouton.type ='button';
+    bouton.value = globalData[i].category.name;
+    bouton.className ='btn-cat';
+    bouton.id = globalData[i].category.id;
+    zoneFiltres.appendChild(bouton);   
+  };
+
+
+    let titrePortfolio = document.querySelector('#portfolio > h2');
+    // insère après titrePortfolio sans l'imbriquer à l'intérieur avec insertAdjacentElement afterend
+    titrePortfolio.insertAdjacentElement('afterend', zoneFiltres);
+
+  filterWorks();
 
 };
+
 // Appel de la fonction après un délai pour s'assurer que les données sont chargées
 setTimeout(createFilters, 1000);
 
 
+// fonction pour lister les boutons filtres et ajouter un eventlistner
+function filterWorks() {
+  // cibler les boutons de filtre
+  let TableauBoutonsFiltre = document.querySelectorAll('.btn-cat')
+  console.log(TableauBoutonsFiltre);
 
-
-
+  // Ajouter un eventlistner sur chaque boutons
+  for (let i=0;i<TableauBoutonsFiltre.length;i++) {
+    TableauBoutonsFiltre[i].addEventListener('click', function() {
+      console.log('cliqué')
+      // voir comment ajouter un moyend'attribuer display none aux works en fonction des boutons cliqués 
+      // element.style.display = 'none';
+    });
+  };
+};
 
 
 
@@ -86,20 +114,21 @@ setTimeout(createFilters, 1000);
 function useGlobalData() {
   
   if (globalData) {
-    console.log("Données disponibles:", globalData);
+    // console.log("Données disponibles:", globalData);
     
     // récupération de tous les noms de categories dans l'objet globalData
     for ( let i=0 ; i<globalData.length ; i++ ) {
-      console.log (i + " " + globalData[i].category.name);
-    }
+      // console.log (i + " " + globalData[i].category.name);
+    };
     
     // console.log (globalData.length)
     // console.log (globalData)
 
   } else {
     console.log("Les données ne sont pas encore disponibles.");
-  }
-}
+  };
+};
 
 // Appel de la fonction après un délai pour s'assurer que les données sont chargées
 setTimeout(useGlobalData, 1000);
+
