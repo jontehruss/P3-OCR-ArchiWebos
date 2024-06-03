@@ -100,11 +100,30 @@ function filterWorks() {
   // Ajouter un eventlistner sur chaque boutons
   for (let i=0;i<TableauBoutonsFiltre.length;i++) {
     TableauBoutonsFiltre[i].addEventListener('click', function() {
-      console.log('cliqué')
-      // voir comment ajouter un moyend'attribuer display none aux works en fonction des boutons cliqués 
-      // element.style.display = 'none';
+      
+      console.log('catégorie : ' + [i])
+      
+      hideWorks(i);
+
     });
   };
+};
+
+
+// fonction appelée par le addEventListner au clic sur les boutons filtre catégorie
+function hideWorks (id) {
+  let works = document.querySelectorAll(`.gallery .cat-id-${id}`);
+  console.log(works);
+  console.log('from addeventlistner hideWorks : '+id);
+
+
+  // if ( id == 0 ) {
+  //   for (i=0;i<works.length;i++)
+  //   works[i].style.display = 'block';
+  // } else {
+  //         works[i].style.display = 'none';
+  // }
+
 };
 
 
