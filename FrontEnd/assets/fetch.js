@@ -39,7 +39,7 @@ fetch(worksUrl)
         element.innerHTML = `<img src="${obj.imageUrl}" alt="${obj.title}"> <figcaption>${obj.title}</figcaption>`;
 
         // ajouter la classe avec l'id de catégory aux figures pour les filtrer avec le CSS
-        element.classList.add(`cat-id-${obj.category.id}`)
+        element.classList.add('works',`cat-id-${obj.category.id}`)
 
         // ajouter au container stocké dans collection les elements figure
         collection.appendChild(element);
@@ -112,9 +112,24 @@ function filterWorks() {
 
 // fonction appelée par le addEventListner au clic sur les boutons filtre catégorie
 function hideWorks (id) {
-  let works = document.querySelectorAll(`.gallery .cat-id-${id}`);
-  console.log(works);
-  console.log('from addeventlistner hideWorks : '+id);
+  // lister tous les elements de la galerie
+  let allWorks = document.querySelectorAll('#collection .works');
+
+  allWorks.forEach(works => {
+  if (works.classList.contains(`cat-id-${id}`)) {
+    works.style.display = 'block';
+  } else {
+    works.style.display = 'none';
+    console.log(`.cat-id-${id}`)
+  }
+});
+
+  // let works = document.querySelectorAll(`.gallery .cat-id-${id}`);
+  
+  // console.log(allWorks);
+  // console.log('from addeventlistner hideWorks : '+id);
+
+
 
 
   // if ( id == 0 ) {
