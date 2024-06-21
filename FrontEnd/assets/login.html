@@ -9,7 +9,8 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./style.css">
-
+	<!-- Script JS -->
+	<script src="./login.js" defer></script>
 </head>
 
 <body>
@@ -18,9 +19,9 @@
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
 		<ul>
-			<li>projets</li>
+			<li><a href="../index.html">projets</a></li>
 			<li>contact</li>
-			<li>login</li>
+			<li><a href="./login.html">login</a></li>
 			<li><img src="./icons/instagram.png" alt="Instagram"></li>
 		</ul>
     </nav>
@@ -31,13 +32,14 @@
     <section id="contact">
 		<h2>Log In</h2>
         <!-- TODO : attribut action pour le formulaire -->
-		<form method="post"> 
+		<form method="post" id="login-form"> 
 			<label for="email">Email</label>
 			<input type="email" name="email" id="email">
             <label for="pwd">Mot de passe:</label>
             <input type="password" id="pwd" name="pwd">
 			<input type="submit" value="Se connecter">
 		</form>
+		<a href="./login.html">Mot de passe oublié</a>
 	</section>
 </main>
 
