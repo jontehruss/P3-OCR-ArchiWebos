@@ -55,26 +55,59 @@ function loginRequest(id) {
     body: id,
     redirect: 'follow'
   };
-  console.log(requestOptions);
+  // console.log(requestOptions);
 
   // envoyer la requête de connexion
   // TODO - Voir pour remplacer la partie http:Domain:Port de l'url par une variable 
   fetch("http://127.0.0.1:5678/api/users/login", requestOptions)
     .then(response => response.text())
 
-    .then(result => console.log(result))
+    .then(result => {
+      console.log('before JSON.parse')
+      console.log(result)
+
+      // Parser l'objet JSON pour récupérer le token
+      let obj = JSON.parse(result);
+      let token = obj.token;
+      console.log('after JSON.parse');
+      console.log(token);
+      
+      // Passer le token au Local Storage
+      saveLocaly(token);
+
+    })
 
     .catch(error => console.log('error', error));
 
-
 }
 
+/** 
+ * TODO : Interdire une value "undefined" pour le token avec une structure conditionelle 
+ * ! enregistrer uniquement le token dans le localstorage si il est valide
+ * ! appeller la fonction showTopBanner unqiuement si le token est valide 
+ * * Faire redirection sur page accueil après le login
+ * * ajouter les modales 
+ * *appeller la route de POST
+ */
+function saveLocaly(token) {
+    // Enregistrer le token dans le local storage du navigateur
+    localStorage.setItem('bearerToken', token);
+    console.log('Le TOKEN est dans le local Storage');
 
+    // Appeller la fonction pour afficher le bandeau top
+    showTopBanner();
+}
+
+function showTopBanner () {
+  let topBanner = document.querySelector('#logged-in');
+  console.log(topBanner);
+  topBanner.className = 'top-banner-edit';
+  console.log(topBanner);
+}
 
 
 /**
  * TODO: 
- * -> JSON.Parse sur result pour récupérer le token
- * -> Utiliser le token pour se connecter
- * ->  fonction pour vérifier si token dans le localstorage - si ok afficher le bandeau supérieur (connecté)
+ * * -> Utiliser le token pour se connecter
+ * * -> fonction pour vérifier si token dans le localstorage - si ok afficher le bandeau supérieur (connecté)
  */

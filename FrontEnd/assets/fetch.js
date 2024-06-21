@@ -88,7 +88,10 @@ function createFilters (){
 };
 
 // Appel de la fonction après un délai pour s'assurer que les données sont chargées
-setTimeout(createFilters, 1000);
+/**
+ * TODO : Tester avec async await !
+ */
+setTimeout(createFilters, 200);
 
 
 // fonction pour lister les boutons filtres et ajouter un eventlistner

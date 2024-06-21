@@ -53,6 +53,23 @@ body {
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 }
+
+/* masquer le bandeau edit */
+.edit-none {
+	display: none;
+}
+
+/* à afficher uniquement quand le token est présent dans le local storage */
+.top-banner-edit {
+	background-color: black;
+	color: white;
+	width: auto;
+	height: 60px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 header {
 	display: flex;
 	justify-content: space-between;
