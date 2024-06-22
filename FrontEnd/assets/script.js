@@ -5,6 +5,8 @@ const catUrl = 'http://localhost:5678/api/categories';
 // Variable globale pour récupérer les données
 let globalData = null;
 
+
+
 // Fonction Assynchrone pour récupérer les datas de l'API et les rendre globales
 // Vérifier l'utilité - pour assigner les id aux boutons de filtres ???
 async function getData () {

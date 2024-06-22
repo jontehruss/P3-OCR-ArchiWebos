@@ -1,4 +1,5 @@
-
+// Appeller la fonction pour afficher le bandeau top
+showTopBanner();
 
 //  cibler le formulaire de login et ses champs
 let loginForm = document.querySelector('#login-form');
@@ -63,21 +64,46 @@ function loginRequest(id) {
     .then(response => response.text())
 
     .then(result => {
-      console.log('before JSON.parse')
-      console.log(result)
+      // console.log('before JSON.parse')
 
-      // Parser l'objet JSON pour récupérer le token
-      let obj = JSON.parse(result);
-      let token = obj.token;
-      console.log('after JSON.parse');
-      console.log(token);
-      
+      let obj;
+      console.log("résultat avant JSON.parse : " + result)
+      try {
+        // Parser l'objet JSON pour transformer result en objet et récupérer le token
+        obj = JSON.parse(result, (key, value) => {
+          if (key === 'token' ) {
+            console.log('le token de lutilisateur est : ' + value)
+            // Passer le token au Local Storage
+            saveLocaly(value);
+          } else if (key === 'message' && value === 'user not found' ) {
+            console.error('Erreur de connexion, indentifiant non reconnu')
+          }
+
+          //  Renvoyer la valeur du token pour la suite du traitement 
+          return value;
+              
+          }
+        );
+      } catch (err) {
+        // en cas d'erreur dans le try envoyer de l'information dans la console
+        console.error('Erreur dans le JSON.parse:', err);
+        throw new Error('JSON invalide');
+      }
+
+      // Vérifier que la value du token est de type string 
+      // if (obj && typeof ) 
+
+
+    console.log(obj)
+
+
+
       // Passer le token au Local Storage
-      saveLocaly(token);
+      // saveLocaly(token);
 
     })
 
-    .catch(error => console.log('error', error));
+    .catch(error => console.error('error', error));
 
 }
 
@@ -87,7 +113,7 @@ function loginRequest(id) {
  * ! appeller la fonction showTopBanner unqiuement si le token est valide 
  * * Faire redirection sur page accueil après le login
  * * ajouter les modales 
- * *appeller la route de POST
+ * * appeller la route de POST
  */
 function saveLocaly(token) {
     // Enregistrer le token dans le local storage du navigateur
@@ -98,11 +124,21 @@ function saveLocaly(token) {
     showTopBanner();
 }
 
+// Attribuer une classe au container HTML pour qu'il s'affiche avec ses règles CSS
 function showTopBanner () {
-  let topBanner = document.querySelector('#logged-in');
-  console.log(topBanner);
-  topBanner.className = 'top-banner-edit';
-  console.log(topBanner);
+  
+  let token = localStorage.getItem('bearerToken');
+  
+  if (token) {
+    console.log(token)
+    let topBanner = document.querySelector('#logged-in');
+    console.log(topBanner);
+    topBanner.className = 'top-banner-edit';
+    console.log(topBanner);
+  }
+
+  
+
 }
 
 
