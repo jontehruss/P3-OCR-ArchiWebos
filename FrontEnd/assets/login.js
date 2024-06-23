@@ -1,4 +1,10 @@
-// Appeller la fonction pour afficher le bandeau top
+import { showTopBanner, authStatus } from "./shared.js";
+
+
+// Appeller la fonction pour le status d'authentification
+authStatus();
+
+// Appeller la fonction pour afficher le bandeau top si un token est présent dans le localStorage
 showTopBanner();
 
 //  cibler le formulaire de login et ses champs
@@ -10,9 +16,6 @@ let passwd = document.querySelector('#pwd');
 let loginBtn = document.querySelector('input[type="submit"]');
 loginBtn.addEventListener('click', (event) => {
   event.preventDefault();
-
-  // console.log(eMail.value);
-  // console.log(passwd.value);
 
   formatCredentials(eMail.value, passwd.value);
 
@@ -32,10 +35,6 @@ function formatCredentials(eMail, passwd) {
     "password": passwd
   });
 
-  // Création JSON manuelle avec interpollation
-    // let id = `{"email":"${eMail}","password":"${passwd}"}`;
-    // console.log(id);
-
   // Appel de la fonction loginRequest avec l'id pour effectuer l'authentification 
   loginRequest(id);
 }
@@ -47,7 +46,6 @@ function loginRequest(id) {
   // initialiser le header de la requête HTTP
   let httpHeaders = new Headers();
   httpHeaders.append("Content-Type", "application/json");
-  // console.log(Headers);
 
   // définir la méthode POST et insérer l'id JSON dans le body
   let requestOptions = {
@@ -56,7 +54,6 @@ function loginRequest(id) {
     body: id,
     redirect: 'follow'
   };
-  // console.log(requestOptions);
 
   // envoyer la requête de connexion
   // TODO - Voir pour remplacer la partie http:Domain:Port de l'url par une variable 
@@ -77,6 +74,7 @@ function loginRequest(id) {
             saveLocaly(value);
           } else if (key === 'message' && value === 'user not found' ) {
             console.error('Erreur de connexion, indentifiant non reconnu')
+              informUser();
           }
 
           //  Renvoyer la valeur du token pour la suite du traitement 
@@ -91,7 +89,10 @@ function loginRequest(id) {
       }
 
       // Vérifier que la value du token est de type string 
-      // if (obj && typeof ) 
+      if (obj === `{message: 'user not found'}` ) {
+        console.log('user not found')
+      } 
+      // informUser();
 
 
     console.log(obj)
@@ -111,6 +112,8 @@ function loginRequest(id) {
  * TODO : Interdire une value "undefined" pour le token avec une structure conditionelle 
  * ! enregistrer uniquement le token dans le localstorage si il est valide
  * ! appeller la fonction showTopBanner unqiuement si le token est valide 
+ * TODO : redirection à la page d'accueil après le login
+ * ! changer login en logout dans le menu de nav
  * * Faire redirection sur page accueil après le login
  * * ajouter les modales 
  * * appeller la route de POST
@@ -122,28 +125,18 @@ function saveLocaly(token) {
 
     // Appeller la fonction pour afficher le bandeau top
     showTopBanner();
-}
-
-// Attribuer une classe au container HTML pour qu'il s'affiche avec ses règles CSS
-function showTopBanner () {
-  
-  let token = localStorage.getItem('bearerToken');
-  
-  if (token) {
-    console.log(token)
-    let topBanner = document.querySelector('#logged-in');
-    console.log(topBanner);
-    topBanner.className = 'top-banner-edit';
-    console.log(topBanner);
-  }
-
-  
-
+    goToPage('../index.html');
 }
 
 
-/**
- * TODO: 
- * * -> Utiliser le token pour se connecter
- * * -> fonction pour vérifier si token dans le localstorage - si ok afficher le bandeau supérieur (connecté)
- */
+
+
+function goToPage(url) {
+  window.location.href = url;
+};
+
+
+// TODO : Améliorer la fonction pour afficher un message d'erreur en cas de mauvais crédentials
+function informUser() {
+  alert('Erreur de connexion, indentifiant non reconnu')
+}

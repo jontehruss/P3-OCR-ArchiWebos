@@ -6,17 +6,25 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+	integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+	crossorigin="anonymous" referrerpolicy="no-referrer">
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./style.css">
 	<!-- Script JS -->
-	<script src="./login.js" defer></script>
+	<script src="./login.js" type="module" defer></script>
+	<script src="./shared.js" type="module" defer></script>
+
+
+
+
 </head>
 
 <body>
-	<div class="edit-none" id="logged-in">
+	<!-- <div class="edit-none" id="logged-in">
 		<p>MODE Édition</p>
-	</div>
+	</div> -->
 <header>
 
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
@@ -24,17 +32,17 @@
 		<ul>
 			<li><a href="../index.html">projets</a></li>
 			<li>contact</li>
-			<li><a href="./login.html">login</a></li>
+			<!-- TODO : voir pour remonter les pages html au même niveau car problème avec la fonction logout depuis la page login -->
+			<li id="auth-status"><a href="./login.html">login</a></li>
 			<li><img src="./icons/instagram.png" alt="Instagram"></li>
 		</ul>
     </nav>
 </header>
 
 <main>
-	<!-- TODO : Modifier l'id et/ou la classe -->
+
     <section id="contact">
 		<h2>Log In</h2>
-        <!-- TODO : attribut action pour le formulaire -->
 		<form method="post" id="login-form"> 
 			<label for="email">Email</label>
 			<input type="email" name="email" id="email">
