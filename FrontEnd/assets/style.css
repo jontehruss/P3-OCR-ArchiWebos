@@ -54,14 +54,29 @@ body {
 	font-size: 14px;
 }
 
-/* TODO - boite Modal */
+
+/* Intérêt à vérifier box-sizing */
 
 * {
 	box-sizing: border-box;
 }
 
+/* TODO - boite Modal */
+
+#title-modal {
+	font-size: large;
+	font-weight: 600;
+	padding: 35px ;
+}
+
+#js-div-edit-gallery {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+
+}
+
 .modal {
-	color:red;
 	position: fixed;
 	top :50%;
 	left:50%;
@@ -74,7 +89,21 @@ body {
 	padding: 20px;
 }
 
+/* conteneur de la modale  */
+.modal-wrapper {
+	overflow: auto;
+	background-color: white;
+	width: 100%;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+}
 
+.modal-wrapper figure img {
+
+	width : 128px;
+
+}
 
 /* TODO - Finaliser la mise en forme */
 
@@ -228,20 +257,6 @@ li:hover {
 
 }
 
-/* .gallery .cat-id-1 { */
-	/* display: none; */
-	/* border: solid red */
-/* } */
-
-/* .gallery .cat-id-2 { */
-	/* display: none; */
-	/* border: solid green */
-/* } */
-
-/* .gallery .cat-id-3 { */
-	/* display: none; */
-	/* border: solid yellow */
-/* } */
 
 
 #contact {

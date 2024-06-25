@@ -4,15 +4,9 @@ export function showTopBanner() {
     let token = localStorage.getItem('bearerToken');
     // Vérifier la présence du Token 
     /** 
-     * TODO : Améliorer la vérification du token
+     * TODO : Améliorer la vérification du token ?
      */
     if (token) {
-        console.log(token)
-        //   let topBanner = document.querySelector('#logged-in');
-        //   console.log(topBanner);
-        //   topBanner.className = 'top-banner-edit';
-        //   console.log(topBanner);
-
         createTopBanner();
     }
 };
@@ -21,7 +15,6 @@ function createTopBanner() {
     // Verifier si le Div existe déjà (car empilement si plusieurs clics sur 'Se connecter')
     if (document.querySelector('.top-banner-edit')) {
         //  si vrai on arrête la fonction
-        console.log('TopBanner existe !!')
         return;
     }
 
@@ -30,25 +23,22 @@ function createTopBanner() {
 
     // Attribuer la classe pour l'afficher et insérer le contenu
     topBanner.className = 'top-banner-edit';
-    topBanner.innerHTML = '<p><a href="#"><i class="fa-regular fa-pen-to-square"></i></a> MODE Édition</p>';
+    topBanner.innerHTML = '<p><a href="#" class="js-open-modal"><i class="fa-regular fa-pen-to-square"></i> MODE Édition</a></p>';
 
     // cibler la première place du body et insérer le conteneur HTML
     let html = document.getElementsByTagName('html')[0];
     let body = document.getElementsByTagName('body')[0];
     html.insertBefore(topBanner, body);
-
 };
 
 export function addEditButon () {
-    
-    // Créer un div pour les boutons filtres
+    // 
     let editBtn = document.createElement('p');
-    editBtn.innerHTML = '<a href="#"><i class="fa-regular fa-pen-to-square"></i></a> MODE Édition';
+    editBtn.innerHTML = '<a href="#" class="js-open-modal"><i class="fa-regular fa-pen-to-square"></i>MODE Édition</a> ';
 
     let titleEdit = document.querySelector('#title-projet > h2');
-    // insérer après titrePortfolio sans l'imbriquer à l'intérieur avec insertAdjacentElement afterend
-    titleEdit.insertAdjacentElement('afterend', editBtn);
 
+    titleEdit.insertAdjacentElement('afterend', editBtn);
 };
 
 
@@ -76,8 +66,6 @@ export function authStatus () {
         })
 
     } else {
-        navAuthStatus.innerHTML = `<a href="./assets/login.html">login</a>`;
-        
+        navAuthStatus.innerHTML = `<a href="./assets/login.html">login</a>`;       
     }
-    
 };

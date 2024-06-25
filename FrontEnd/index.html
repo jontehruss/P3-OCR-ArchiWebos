@@ -31,16 +31,21 @@
 </header>
 
 
-<!-- fenêtre modale -->
-<a href="#modal" > ouvrir la boite modale</a>
+
 
 <!-- attributs pour l'accessibilité -->
-<asside id="modal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="title-modal">
-	<div>
-		<button>X</button>
+<asside id="modal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="title-modal" >
+
+	<div id="modal-wrapper" class="modal-wrapper">
+		
+		<button class="js-close-modal">X</button>
 		<h3 id="title-modal">Galerie photo</h3>
+
+
+		
 		<button>Ajouter une photo</button>
 	</div>
+
 </asside>
 
 
@@ -61,7 +66,7 @@
 		<!-- TODO : Insertion dynamique avec une fonction dans shared.js -->
 		<div id="title-projet">
 			<h2>Mes Projets</h2>
-			<!-- <p><a href="#"><i class="fa-regular fa-pen-to-square"></i></a> MODE Édition</p> -->
+
 		</div>
 		
 
