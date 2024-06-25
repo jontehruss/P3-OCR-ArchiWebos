@@ -54,6 +54,26 @@ body {
 	font-size: 14px;
 }
 
+/* TODO - boite Modal */
+
+* {
+	box-sizing: border-box;
+}
+
+.modal {
+	color:red;
+	position: fixed;
+	top :50%;
+	left:50%;
+	width:50%;
+	height:50%;
+	background: rgba(0,0,0,0.8);
+	transform: translate(-50%, -50%); /* déplace la fenêtre modale vers le haut et vers la gauche de la moitié de ses proportions */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	border-radius: 8px;
+	padding: 20px;
+}
+
 
 
 /* TODO - Finaliser la mise en forme */

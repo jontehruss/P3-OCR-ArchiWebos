@@ -69,10 +69,10 @@ function loginRequest(id) {
         // Parser l'objet JSON pour transformer result en objet et récupérer le token
         obj = JSON.parse(result, (key, value) => {
           if (key === 'token' ) {
-            console.log('le token de lutilisateur est : ' + value)
+            console.warn();('le token de lutilisateur est : ' + value)
             // Passer le token au Local Storage
             saveLocaly(value);
-          } else if (key === 'message' && value === 'user not found' ) {
+          } else if (key === 'error' || key === 'message' && value === 'user not found' ) {
             console.error('Erreur de connexion, indentifiant non reconnu')
               informUser();
           }
@@ -89,9 +89,9 @@ function loginRequest(id) {
       }
 
       // Vérifier que la value du token est de type string 
-      if (obj === `{message: 'user not found'}` ) {
-        console.log('user not found')
-      } 
+      // if (obj === `{message: 'user not found'}` ) {
+      //   console.log('user not found')
+      // } 
       // informUser();
 
 
@@ -114,7 +114,6 @@ function loginRequest(id) {
  * ! appeller la fonction showTopBanner unqiuement si le token est valide 
  * TODO : redirection à la page d'accueil après le login
  * ! changer login en logout dans le menu de nav
- * * Faire redirection sur page accueil après le login
  * * ajouter les modales 
  * * appeller la route de POST
  */
@@ -139,4 +138,6 @@ function goToPage(url) {
 // TODO : Améliorer la fonction pour afficher un message d'erreur en cas de mauvais crédentials
 function informUser() {
   alert('Erreur de connexion, indentifiant non reconnu')
-}
+};
+
+

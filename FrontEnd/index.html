@@ -17,9 +17,7 @@
 	<script src="./assets/shared.js" type="module" defer></script>
 </head>
 <body>
-	<!-- <div class="edit-none" id="logged-in">
-		<p>MODE Édition</p>
-	</div> -->
+
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
@@ -31,6 +29,21 @@
 		</ul>
 	</nav>
 </header>
+
+
+<!-- fenêtre modale -->
+<a href="#modal" > ouvrir la boite modale</a>
+
+<!-- attributs pour l'accessibilité -->
+<asside id="modal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="title-modal">
+	<div>
+		<button>X</button>
+		<h3 id="title-modal">Galerie photo</h3>
+		<button>Ajouter une photo</button>
+	</div>
+</asside>
+
+
 <main>
 	<section id="introduction">
 		<figure>
@@ -75,7 +88,4 @@
 		<ul>
 			<li>Mentions Légales</li>
 		</ul>
-	</nav>
-</footer>
-</body>
-</html>
+	</n
