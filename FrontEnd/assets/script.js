@@ -39,7 +39,7 @@ async function getData() {
 
 getData();
 
-
+// TODO à corriger doublon avec getData();
 async function fetchData() {
   // Fonction fetch pour récupérer les données et réaliser des traitements
   fetch(worksUrl)
@@ -101,7 +101,7 @@ function createEditGallery() {
   divElement.id = 'js-div-edit-gallery'
 
 
-  // Insérer le >div>
+  // Insérer le <div>
   titleModal.insertAdjacentElement('afterend', divElement);
 
 };
@@ -115,9 +115,13 @@ function populateModal(data) {
 
     // Crée un container Figure
     let element = document.createElement('figure');
+    element.className = 'js-modal-figure';
 
-    // TODO : Insérer le bouton corbeille
-    element.innerHTML = `<img src="${obj.imageUrl}" alt="${obj.title}">`;
+    element.innerHTML = `
+      <a href="#">
+        <i class="fa-solid fa-trash-can overlay-icon"></i>
+      </a>
+      <img src="${obj.imageUrl}" alt="${obj.title}">`;
 
 
     modalWrapper.appendChild(element)

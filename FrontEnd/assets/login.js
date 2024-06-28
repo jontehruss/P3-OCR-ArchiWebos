@@ -41,7 +41,7 @@ function formatCredentials(eMail, passwd) {
 
 
 
-function loginRequest(id) {
+function  loginRequest(id) {
 
   // initialiser le header de la requête HTTP
   let httpHeaders = new Headers();

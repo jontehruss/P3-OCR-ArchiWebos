@@ -64,10 +64,33 @@ body {
 /* TODO - boite Modal */
 
 #title-modal {
-	font-size: large;
-	font-weight: 600;
-	padding: 35px ;
+    display: flex;
+    font-size: large;
+    font-weight: 600;
+    padding: 0 35px 15px 0;
+    /* border: solid green; */
+    flex-direction: row;
+    justify-content: center;
 }
+
+.js-modal-figure {
+	/* position: relative pour positionner
+	l'élément child avec position: absolute */
+	position: relative;
+	/* border: solid red; */
+}
+
+.overlay-icon {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	font-size: 10px;
+	color: white;
+	background-color: black;
+	padding: 4px;
+	border-radius: 4px;
+}
+
 
 #js-div-edit-gallery {
 	display: flex;
@@ -80,8 +103,8 @@ body {
 	position: fixed;
 	top :50%;
 	left:50%;
-	width:50%;
-	height:50%;
+	width:630px;
+	height: 660px;
 	background: rgba(0,0,0,0.8);
 	transform: translate(-50%, -50%); /* déplace la fenêtre modale vers le haut et vers la gauche de la moitié de ses proportions */
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -90,19 +113,30 @@ body {
 }
 
 /* conteneur de la modale  */
+/* TODO : réglage de la taille de la modale */
 .modal-wrapper {
 	overflow: auto;
 	background-color: white;
 	width: 100%;
-	padding: 20px;
+	padding: 40px 80px;
 	display: flex;
 	flex-direction: column;
 }
 
+.modal-wrapper hr {
+    margin: 10px 0 ;
+}
+
 .modal-wrapper figure img {
+	width : 76px;
+	margin : 5px;
+}
 
-	width : 128px;
-
+.js-close-modal{
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    display: flex;
+    flex-direction: row-reverse;
 }
 
 /* TODO - Finaliser la mise en forme */
