@@ -20,8 +20,10 @@ let globalData = null;
 function checkAuthStatus() {
   //  Chercher le token dans le local storage
   if (verifyToken()) {
+    console.log(verifyToken())
     // console.log('utilisateur authentifié')
     addEditButon();
+    // hideFilters();
   } else {
     // console.log('utilisateur inconnu')
   }
@@ -154,7 +156,7 @@ function showModal() {
 function targetCloseModalBtn() {
   // cibler le bouton de fermeture de la modale
   let btnCloseModal = document.querySelector('.js-close-modal');
-  console.log(btnCloseModal);
+  // console.log(btnCloseModal);
   btnCloseModal.addEventListener('click', () => {
     hideModal();
   });
@@ -175,6 +177,7 @@ function createFilters() {
   // Créer un div pour les boutons filtres
   let zoneFiltres = document.createElement('div');
   zoneFiltres.className = 'btn-list';
+  zoneFiltres.id = 'js-btn-list';
 
   let all = document.createElement('input');
   all.type = 'button';
@@ -191,6 +194,7 @@ function createFilters() {
     bouton.className = 'btn-cat';
     bouton.id = globalData[i].category.id;
     zoneFiltres.appendChild(bouton);
+    // console.log(globalData.length);
   };
 
   let titrePortfolio = document.querySelector('#portfolio > div');
@@ -198,6 +202,8 @@ function createFilters() {
   titrePortfolio.insertAdjacentElement('afterend', zoneFiltres);
 
   filterWorks();
+
+  hideFilters(zoneFiltres);
 
 };
 
@@ -214,20 +220,41 @@ function filterWorks() {
   // cibler les boutons de filtre
   let TableauBoutonsFiltre = document.querySelectorAll('.btn-cat')
 
+
+
+
   // Ajouter un eventlistner sur chaque boutons
+  // console.log(TableauBoutonsFiltre)
   for (let i = 0; i < TableauBoutonsFiltre.length; i++) {
+    // console.log('tour numéro :' + i)
     TableauBoutonsFiltre[i].addEventListener('click', function () {
-
       hideWorks(i);
-
     });
   };
+};
+
+
+// Todo : Améliorer le masquage en mode connecté 
+function hideFilters() {
+  // console.log(verifyToken());
+  if (verifyToken() === true) {
+    let zoneFiltres = document.getElementById('js-btn-list');
+    // console.log(zoneFiltres)
+    zoneFiltres.style.display = 'none';
+    showAllWorks();
+  } return
+
+};
+
+function showAllWorks() {
+  hideWorks(0)
 };
 
 
 // fonction appelée par le addEventListner au clic sur les boutons filtre catégorie
 function hideWorks(id) {
   // lister tous les elements de la galerie
+  // console.log(id);
   let allWorks = document.querySelectorAll('#collection .works');
 
   // Parcourir tous les éléments
@@ -240,7 +267,7 @@ function hideWorks(id) {
         works.style.display = 'block';
       } else {
         works.style.display = 'none';
-        console.log(`.cat-id-${id}`)
+        // console.log(`.cat-id-${id}`)
       }
     }
   }
