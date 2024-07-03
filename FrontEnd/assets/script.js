@@ -8,6 +8,7 @@ showTopBanner();
 
 // Par défaut Masquer la modale
 hideModal();
+hideAddPicModal();
 
 // URLs de l'API
 const worksUrl = 'http://localhost:5678/api/works/';
@@ -96,6 +97,8 @@ function populateCatalog(data) {
 function createEditGallery() {
   // Sélectionner le titre avec l'ID 'title-modal'
   let titleModal = document.getElementById('title-modal');
+  // Injecter le titre 
+  titleModal.innerText = "Galerie photo";
 
   // Créer un <div>
   let divElement = document.createElement('div');
@@ -163,6 +166,70 @@ function targetCloseModalBtn() {
 };
 
 targetCloseModalBtn();
+
+
+function targetAddPicBtn() {
+  // cibler le bouton d'ajout de photo dans la modale
+  let btnAddPic = document.querySelector('.btn-modal');
+  btnAddPic.addEventListener('click', () => {
+    console.log(btnAddPic);
+
+    // au clic appeller la fonction pour masquer la première vue de la modale
+    hideGalleryModal();
+
+    // et appeller la fonction pur afficher le formulaire d'import dans la modale
+    showAddPicModal();
+
+  });
+};
+
+targetAddPicBtn();
+
+function hideGalleryModal() {
+  console.log('masquer la gallerie de la modale');
+  let titleModal = document.getElementById('title-modal');
+  // Injecter le titre de la seconde vue
+  titleModal.innerText = "Ajout photo";
+
+  // Passer en display:none le div EditGallery
+  let divElement = document.querySelector('#js-div-edit-gallery')
+  divElement.style = "display:none";
+
+  // // Créer un <form>
+  // let formElement = document.createElement('form');
+  // formElement = document.createElement('form');
+  // formElement.id = 'js-form-edit-gallery';
+  // formElement.action = '/submit';
+  // formElement.method = 'post';
+  // // Insérer le <form>
+  // titleModal.insertAdjacentElement('afterend', formElement);
+
+
+  // // Crée un élément div
+  // let divForm = document.createElement('div');
+  // divForm.className = 'js-form-group';
+  // // insérer le divForm
+  // formElement.insertAdjacentElement('afterend', divForm);
+
+  // // insérer un element Label
+  // let divFormLabel = document.createElement('label');
+  // divFormLabel.innerText = 'jpg, png : 4mo max';
+  // divForm.insertAdjacentElement('afterend', divFormLabel)
+
+}
+
+function hideAddPicModal() {
+  let formElement = document.querySelector('.form-upload-work');
+  formElement.style = 'display:none';
+}
+
+function showAddPicModal() {
+  console.log('afficher le formulaire de la modale');
+
+  let formElement = document.querySelector('.form-upload-work');
+  formElement.style = 'display:flex';
+
+}
 
 
 function hideModal() {
