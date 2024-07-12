@@ -1,1 +1,11 @@
 .idea
+
+# dossier images
+images/
+
+# fichier des dépendances
+Backend/package-lock.json
+
+# base de données
+
+Backend/database.sqlite

@@ -110,6 +110,45 @@ function postWork(worksUrl) {
     .catch(error => console.log('error', error));
 }
 
+
+// TODO : vérifier le fonctinnement de la suppression 
+function deleteWork(worksUrl, id) {
+  // il faut récupérer la valeur de id depuis le html
+  let deleteBtn = document.getElementById('js-delete-work-btn')
+  console.log(deleteBtn);
+
+
+
+  let bearerToken = getTokenValue();
+  console.log(bearerToken);
+
+  let headers = new Headers();
+  headers.append(
+    "Authorization",
+    "Bearer " + bearerToken
+  );
+
+
+  let requestOptions = {
+    method: 'DELETE',
+    headers: headers,
+    body: '',
+    redirect: 'follow'
+  };
+
+
+  let workToDelete = worksUrl + '/' + id + '?id=' + id
+
+  fetch(workToDelete, requestOptions) // il faut récupérer la valeur de id pour l'inclure à l'URL (/15?id=15")
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+
+};
+
+
+
+
 // Fonction Assynchrone pour récupérer les datas de l'API et les rendre globales
 async function getData(route, url) {
   // récupérer dans "data" la réponse de la route API en JSON
@@ -158,14 +197,41 @@ function createEditGallery() {
 };
 
 function populateModal(data) {
+
   createEditGallery();
   data.forEach(obj => {
     let modalWrapper = document.querySelector('#js-div-edit-gallery');
     // Crée un container Figure
     let element = document.createElement('figure');
     element.className = 'js-modal-figure';
-    element.innerHTML = `<a href="#"><i class="fa-solid fa-trash-can overlay-icon"></i></a><img src="${obj.imageUrl}" alt="${obj.title}">`;
+    // ! Attention code en dur ! 
+    // element.innerHTML = `<a href="${obj.category.id}"><i id="js-delete-work-btn" class="fa-solid fa-trash-can overlay-icon"></i></a><img src="${obj.imageUrl}" alt="${obj.title}">`;
+    element.innerHTML = `<a href="http://localhost:5678/api/works/${obj.category.id}?id=${obj.category.id}"><i id="js-delete-work-btn" class="fa-solid fa-trash-can overlay-icon"></i></a><img src="${obj.imageUrl}" alt="${obj.title}">`;
     modalWrapper.appendChild(element);
+
+
+
+  });
+
+  targetDeleteWorkBtn();
+};
+
+
+function targetDeleteWorkBtn() {
+  let deleteBtn = document.querySelectorAll('#js-delete-work-btn');
+  console.log(deleteBtn);
+
+  deleteBtn.forEach(btn => {
+    btn.addEventListener('click', (event) => {
+      event.preventDefault();
+      console.log('voulez vous supprimer ?');
+
+      //  ! il faut envoyer les paramètres worksUrl et id à la fonction 
+      // TODO : trouver un moyen pour récupérer ces propriétés depuis la fonction populateModal();
+      deleteWork();
+
+
+    })
   })
 };
 
