@@ -99,7 +99,7 @@ function  loginRequest(id) {
  * TODO : redirection à la page d'accueil après le login
  * ! changer login en logout dans le menu de nav
  * * ajouter les modales 
- * * appeller la route de POST
+ * * apeller la route de POST
  */
 function saveLocaly(token) {
   // Enregistrer le token dans le local storage du navigateur

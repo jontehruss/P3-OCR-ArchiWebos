@@ -1,4 +1,4 @@
-import { showTopBanner, authStatus, verifyToken, addEditButon } from "./shared.js";
+import { showTopBanner, authStatus, verifyToken, addEditButon, getTokenValue } from "./shared.js";
 
 // URLs de l'API
 const worksUrl = 'http://localhost:5678/api/works/';
@@ -28,6 +28,87 @@ function checkAuthStatus() {
 }
 checkAuthStatus();
 
+
+
+// ! Fonction pour upload works via modale form
+function targetPostForm() {
+
+
+
+  // écouter le bouton submit formulaire modale
+  let btnPostWork = document.querySelector('#submit-work-btn');
+  //  ajouter un écouteur sur le bouton
+  btnPostWork.addEventListener('click', (event) => {
+    event.preventDefault();
+    console.log('bouton form cliqué !');
+
+
+
+    // appel de la fonction de POST
+    postWork(worksUrl);
+
+  });
+};
+targetPostForm();
+
+
+// collecter les données du formulaire et les envoyer à l'URL spécifiée
+function postWork(worksUrl) {
+
+  console.log(worksUrl)
+  // * cibler le formulaire
+  // * à ce stade le formulaire est rempli avant d'être ciblé 
+  // let form = document.querySelector('.form-upload-work');
+
+  let form = document.getElementById('post-form');
+  console.log(form);
+
+  // stocker dans le formData les donées du formulaire
+  let formData = new FormData(form);
+  //  avec la méthode forEach il est possible de parcourir les valeurs récupérées
+  formData.forEach((value, key) => {
+    console.log(key, value);
+  });
+  // formData.append("image", fileInput.files[0]) // ! à vérifier sur le file input
+  // formData.append("title", )
+  // formData.append("category", )
+
+
+
+  // ! Préparer le header de la requête
+
+  // récupérer la valeur du token dans le local storage
+  // getTokenValue();
+  let bearerToken = getTokenValue();
+  console.log(bearerToken);
+
+  let headers = new Headers();
+  //   // TODO : récupérer le token dans le local storage
+  // constituer le header avec le token
+  headers.append(
+    "Authorization",
+    "Bearer " + bearerToken
+  ); // attention à l'espace dans la chaine de carractères du header
+  //  avec la méthode forEach il est possible de parcourir les valeurs récupérées
+  headers.forEach((value, key) => {
+    console.log(key, value);
+  });
+
+  // ! Préparer les options et le body de la requête
+  let requestOptions = {
+    method: 'POST',
+    headers: headers,
+    body: formData, // injecter dans le body les valeurs du formulaire
+    redirect: 'follow' // ! voir si ici il faut modifier pour voir l'image dans la modale 
+  };
+  console.log(requestOptions)
+
+  // ! Déclencher la requête avec Fetch
+  fetch(worksUrl, requestOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+}
 
 // Fonction Assynchrone pour récupérer les datas de l'API et les rendre globales
 async function getData(route, url) {
@@ -193,7 +274,7 @@ function createFilters(data) {
 };
 
 
-createFilters();
+
 
 // fonction pour lister les boutons filtres et ajouter un eventlistner
 function filterWorks() {

@@ -48,7 +48,7 @@
 			<h3 id="title-modal"></h3>
 
 			<!-- Formulaire masqué par défaut -->
-			<form class="form-upload-work" action="/submit" method="post" enctype="multipart/form-data">
+			<form id="post-form" class="form-upload-work" action="/submit" method="post" enctype="multipart/form-data">
 				<div id="modal-img-placeholder" >
 					<label for="image">jpg, png : 4mo max</label>
 					<input type="file" id="upload-photo" name="image" placeholder="+ Ajouter une photo" accept=".jpg, .jpeg, .png" required>
@@ -61,12 +61,12 @@
 
 					<label for="category">Catégorie</label>
 					<select id="category" name="category" required>
-						<option value="Objets">Objets</option>
-						<option value="Appartements">Appartements</option>
-						<option value="Hotels & Restaurants">Hotels & Restaurants</option>
+						<option value="1">Objets</option>
+						<option value="2">Appartements</option>
+						<option value="3">Hotels & Restaurants</option>
 					</select>
 				</div>
-				<!-- <button type="submit" class="submit-btn">Valider</button> -->
+				<button type="submit" id="submit-work-btn">Valider</button>
 			</form>
 
 			<hr class="modal-separator">

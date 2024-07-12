@@ -69,3 +69,12 @@ export function authStatus () {
         navAuthStatus.innerHTML = `<a href="./assets/login.html">login</a>`;       
     }
 };
+
+
+// fonction pour récupérer la valeur du Token 
+export function getTokenValue() {
+    if (verifyToken()) {
+        return localStorage.getItem('bearerToken');
+    }
+    return null; // normalement on arrive pas ici car la modale est accessible que quand un token est présent
+};
