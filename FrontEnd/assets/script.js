@@ -111,40 +111,7 @@ function postWork(worksUrl) {
 }
 
 
-// TODO : vérifier le fonctinnement de la suppression 
-function deleteWork(worksUrl, id) {
-  // il faut récupérer la valeur de id depuis le html
-  let deleteBtn = document.getElementById('js-delete-work-btn')
-  console.log(deleteBtn);
 
-
-
-  let bearerToken = getTokenValue();
-  console.log(bearerToken);
-
-  let headers = new Headers();
-  headers.append(
-    "Authorization",
-    "Bearer " + bearerToken
-  );
-
-
-  let requestOptions = {
-    method: 'DELETE',
-    headers: headers,
-    body: '',
-    redirect: 'follow'
-  };
-
-
-  let workToDelete = worksUrl + '/' + id + '?id=' + id
-
-  fetch(workToDelete, requestOptions) // il faut récupérer la valeur de id pour l'inclure à l'URL (/15?id=15")
-    .then(response => response.text())
-    .then(result => console.log(result))
-    .catch(error => console.log('error', error));
-
-};
 
 
 
@@ -206,7 +173,13 @@ function populateModal(data) {
     element.className = 'js-modal-figure';
     // ! Attention code en dur ! 
     // element.innerHTML = `<a href="${obj.category.id}"><i id="js-delete-work-btn" class="fa-solid fa-trash-can overlay-icon"></i></a><img src="${obj.imageUrl}" alt="${obj.title}">`;
-    element.innerHTML = `<a href="http://localhost:5678/api/works/${obj.category.id}?id=${obj.category.id}"><i id="js-delete-work-btn" class="fa-solid fa-trash-can overlay-icon"></i></a><img src="${obj.imageUrl}" alt="${obj.title}">`;
+    // element.innerHTML = `<a href="http://localhost:5678/api/works/${obj.category.id}?id=${obj.category.id}"><i id="js-delete-work-btn" class="fa-solid fa-trash-can overlay-icon"></i></a><img src="${obj.imageUrl}" alt="${obj.title}">`;
+    element.innerHTML = `
+      <button class="js-delete-work-btn" id="${obj.id}">
+        <i class="fa-solid fa-trash-can overlay-icon"></i>
+      </button>
+      <img src="${obj.imageUrl}" alt="${obj.title}">`;
+
     modalWrapper.appendChild(element);
 
 
@@ -218,21 +191,67 @@ function populateModal(data) {
 
 
 function targetDeleteWorkBtn() {
-  let deleteBtn = document.querySelectorAll('#js-delete-work-btn');
+  let deleteBtn = document.querySelectorAll('.js-delete-work-btn');
   console.log(deleteBtn);
 
   deleteBtn.forEach(btn => {
     btn.addEventListener('click', (event) => {
       event.preventDefault();
-      console.log('voulez vous supprimer ?');
+
+      // récupérer l'élément qui a déclenché l'event
+      let deleteBtnClicked = event.target;
+
+      // extraire la valeur de l'id
+      let btnId = deleteBtnClicked.id;
+
+
+
+      // ! Attention btnId est la catégorie !! pas l'id du work...
+      console.log('voulez vous supprimer ?  ' + btnId);
 
       //  ! il faut envoyer les paramètres worksUrl et id à la fonction 
       // TODO : trouver un moyen pour récupérer ces propriétés depuis la fonction populateModal();
-      deleteWork();
+      deleteWork(btnId);
 
 
     })
   })
+};
+
+
+// TODO : vérifier le fonctinnement de la suppression 
+function deleteWork(id) {
+  // il faut récupérer la valeur de id depuis le html
+  let deleteBtn = document.getElementById('js-delete-work-btn')
+  console.log(deleteBtn);
+
+
+
+  let bearerToken = getTokenValue();
+  console.log(bearerToken);
+
+  let headers = new Headers();
+  headers.append(
+    "Authorization",
+    "Bearer " + bearerToken
+  );
+
+
+  let requestOptions = {
+    method: 'DELETE',
+    headers: headers,
+    body: '',
+    redirect: 'follow'
+  };
+
+
+  let workToDelete = worksUrl + '/' + id + '?id=' + id
+
+  fetch(workToDelete, requestOptions) // il faut récupérer la valeur de id pour l'inclure à l'URL (/15?id=15")
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+
 };
 
 
