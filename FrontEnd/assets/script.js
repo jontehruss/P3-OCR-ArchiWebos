@@ -28,99 +28,6 @@ function checkAuthStatus() {
 }
 checkAuthStatus();
 
-
-
-// ! Fonction pour upload works via modale form
-function targetPostForm() {
-
-
-
-  // écouter le bouton submit formulaire modale
-  let btnPostWork = document.querySelector('#submit-work-btn');
-  //  ajouter un écouteur sur le bouton
-  btnPostWork.addEventListener('click', (event) => {
-    event.preventDefault();
-    console.log('bouton form cliqué !');
-
-
-
-    // appel de la fonction de POST
-    postWork(worksUrl);
-
-  });
-};
-targetPostForm();
-
-
-// collecter les données du formulaire et les envoyer à l'URL spécifiée
-function postWork(worksUrl) {
-
-  console.log(worksUrl)
-  // * cibler le formulaire
-  // * à ce stade le formulaire est rempli avant d'être ciblé 
-  // let form = document.querySelector('.form-upload-work');
-
-  let form = document.getElementById('post-form');
-  console.log(form);
-
-  // stocker dans le formData les donées du formulaire
-  let formData = new FormData(form);
-  //  avec la méthode forEach il est possible de parcourir les valeurs récupérées
-  formData.forEach((value, key) => {
-    console.log(key, value);
-  });
-  // formData.append("image", fileInput.files[0]) // ! à vérifier sur le file input
-  // formData.append("title", )
-  // formData.append("category", )
-
-
-
-  // ! Préparer le header de la requête
-
-  // récupérer la valeur du token dans le local storage
-  // getTokenValue();
-  let bearerToken = getTokenValue();
-  console.log(bearerToken);
-
-  let headers = new Headers();
-  //   // TODO : récupérer le token dans le local storage
-  // constituer le header avec le token
-  headers.append(
-    "Authorization",
-    "Bearer " + bearerToken
-  ); // attention à l'espace dans la chaine de carractères du header
-  //  avec la méthode forEach il est possible de parcourir les valeurs récupérées
-  headers.forEach((value, key) => {
-    console.log(key, value);
-  });
-
-  // ! Préparer les options et le body de la requête
-  let requestOptions = {
-    method: 'POST',
-    headers: headers,
-    body: formData, // injecter dans le body les valeurs du formulaire
-    redirect: 'follow' // ! voir si ici il faut modifier pour voir l'image dans la modale 
-  };
-  console.log(requestOptions)
-
-  // ! Déclencher la requête avec Fetch
-  fetch(worksUrl, requestOptions)
-    .then(response => response.text())
-    .then(result => console.log(result))
-    .catch(error => console.log('error', error));
-
-
-  // Rappel de populateModal
-  populateModal();
-
-};
-
-
-
-
-
-
-
 // Fonction Assynchrone pour récupérer les datas de l'API et les rendre globales
 async function getData(route, url) {
   // récupérer dans "data" la réponse de la route API en JSON
@@ -128,6 +35,7 @@ async function getData(route, url) {
   let data = await response.json();
   if (route === 'works') {
     // envoyer les datas dans la fonction pour afficher les works
+    // ! Attention, à l'upload d'un Work, doublon de TOUS les projest dans le DOM
     populateCatalog(data);
     populateModal(data);
   } else if (route === 'cat') {
@@ -137,6 +45,78 @@ async function getData(route, url) {
 };
 getData('works', worksUrl);
 getData('cat', catUrl);
+
+
+function targetPostForm() {
+  document.addEventListener('DOMContentLoaded', () => {
+    // Sélectionner le formulaire
+    let form = document.getElementById('post-form');
+
+    // Ajouter un écouteur sur la soumission du formulaire
+    form.addEventListener('submit', (event) => {
+      event.preventDefault(); 
+      postWork(worksUrl); 
+    });
+  });
+};
+targetPostForm();
+
+
+// collecter les données du formulaire et les envoyer à l'URL spécifiée
+function postWork(worksUrl) {
+
+  // cibler le formulaire
+  let form = document.getElementById('post-form');
+
+  // stocker dans le formData les donées du formulaire
+  let formData = new FormData(form);
+
+  // //  avec la méthode forEach il est possible de parcourir les valeurs récupérées
+  // formData.forEach((value, key) => {
+  //   console.log(key, value);
+  // });
+
+  // Préparer le header de la requête
+  // récupérer la valeur du token dans le local storage
+  let bearerToken = getTokenValue();
+  let headers = new Headers();
+
+  // constituer le header avec le token
+  headers.append(
+    "Authorization",
+    "Bearer " + bearerToken
+  );
+  // //  avec la méthode forEach il est possible de parcourir les valeurs récupérées
+  // headers.forEach((value, key) => {
+  //   console.log(key, value);
+  // });
+
+  // Préparer les options et le body de la requête
+  let requestOptions = {
+    method: 'POST',
+    headers: headers,
+    body: formData, // injecter dans le body les valeurs du formulaire
+  };
+
+  // Déclencher la requête avec Fetch
+  fetch(worksUrl, requestOptions)
+
+    .then(response => {   
+      // ! Attention ici, la fonction getData ajoute TOUS les projets au DOM. Il faudrait ajouter simplement le nouveau projet.
+      getData('works', worksUrl);
+      return response.text();
+    })
+
+    // TODO : voir comment au résult du Post ne pas recharger le DOM
+    .then(result => {
+      console.log(result);
+    })
+
+    .catch(error => console.log('error', error));
+
+};
+
+
 
 
 function populateCatalog(data) {
@@ -197,40 +177,30 @@ function populateModal(data) {
 
 function targetDeleteWorkBtn() {
   let deleteBtn = document.querySelectorAll('.js-delete-work-btn');
-  console.log(deleteBtn);
 
   deleteBtn.forEach(btn => {
     btn.addEventListener('click', (event) => {
       event.preventDefault();
-
       // récupérer l'élément qui a déclenché l'event
       let deleteBtnClicked = event.target;
 
       // extraire la valeur de l'id
       let btnId = deleteBtnClicked.id;
 
+      // TODO : Confirmation de suppression ?
+      // console.log('voulez vous supprimer ?  ' + btnId);
 
-
-      // ! Attention btnId est la catégorie !! pas l'id du work...
-      console.log('voulez vous supprimer ?  ' + btnId);
-
-      //  ! il faut envoyer les paramètres worksUrl et id à la fonction 
-      // TODO : trouver un moyen pour récupérer ces propriétés depuis la fonction populateModal();
+      // envoi de l'id catégorie à la fonction de supression
       deleteWork(btnId);
-
-
     })
   })
 };
 
 
-// TODO : vérifier le fonctinnement de la suppression 
 function deleteWork(id) {
-  // il faut récupérer la valeur de id depuis le html
-  let deleteBtn = document.getElementById('js-delete-work-btn')
-  console.log(deleteBtn);
 
-
+  // let deleteBtn = document.getElementById('js-delete-work-btn')
+  // console.log(deleteBtn);
 
   let bearerToken = getTokenValue();
   console.log(bearerToken);
@@ -250,7 +220,7 @@ function deleteWork(id) {
   };
 
 
-  
+
   let workToDelete = worksUrl + '/' + id + '?id=' + id
 
   fetch(workToDelete, requestOptions) // il faut récupérer la valeur de id pour l'inclure à l'URL (/15?id=15")
@@ -365,15 +335,12 @@ function createFilters(data) {
 };
 
 
-
-
 // fonction pour lister les boutons filtres et ajouter un eventlistner
 function filterWorks() {
   // cibler les boutons de filtre
   let TableauBoutonsFiltre = document.querySelectorAll('.btn-cat')
   // Ajouter un eventlistner sur chaque boutons
   for (let i = 0; i < TableauBoutonsFiltre.length; i++) {
-    // console.log('tour numéro :' + i)
     TableauBoutonsFiltre[i].addEventListener('click', function () {
       hideWorks(i);
     });
@@ -398,7 +365,6 @@ function showAllWorks() {
 function hideWorks(id) {
   // lister tous les elements de la galerie
   let allWorks = document.querySelectorAll('#collection .works');
-
   // Parcourir tous les éléments
   allWorks.forEach(works => {
     // Si id = 0 alors on affiche tous les éléméents, autrement on affiche les éléments en fonction de leur id
