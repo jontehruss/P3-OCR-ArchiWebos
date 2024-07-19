@@ -108,7 +108,12 @@ function postWork(worksUrl) {
     .then(response => response.text())
     .then(result => console.log(result))
     .catch(error => console.log('error', error));
-}
+
+
+  // Rappel de populateModal
+  populateModal();
+
+};
 
 
 
@@ -241,10 +246,11 @@ function deleteWork(id) {
     method: 'DELETE',
     headers: headers,
     body: '',
-    redirect: 'follow'
+    // redirect: 'follow'
   };
 
 
+  
   let workToDelete = worksUrl + '/' + id + '?id=' + id
 
   fetch(workToDelete, requestOptions) // il faut récupérer la valeur de id pour l'inclure à l'URL (/15?id=15")
