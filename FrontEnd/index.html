@@ -47,6 +47,10 @@
 
 			<h3 id="title-modal"></h3>
 
+			<!-- Bouton ajout photo + séparateur -->
+			<hr class="modal-separator js-modal-1-1">
+			<button class="btn-modal">Ajouter une photo</button>
+
 			<!-- Formulaire masqué par défaut -->
 			<form id="post-form" class="form-upload-work" action="/submit" method="post" enctype="multipart/form-data">
 				<div id="modal-img-placeholder" >
@@ -57,7 +61,7 @@
 
 				<div id="modal-form-fields">
 					<label for="title">Titre</label>
-					<input type="text" id="title" name="title" required>
+					<input type="text" id="title" name="title" value="test" required>
 
 					<label for="category">Catégorie</label>
 					<select id="category" name="category" required>
@@ -69,9 +73,7 @@
 				<button type="submit" id="submit-work-btn">Valider</button>
 			</form>
 
-			<hr class="modal-separator">
 
-			<button class="btn-modal">Ajouter une photo</button>
 
 		</div>
 

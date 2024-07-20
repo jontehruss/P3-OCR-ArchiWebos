@@ -5,6 +5,9 @@ import { showTopBanner, authStatus, verifyToken, addEditButon, getTokenValue } f
 const worksUrl = 'http://localhost:5678/api/works/';
 const catUrl = 'http://localhost:5678/api/categories';
 
+// ! Variable utilisée pour fonction de contrôle post upload work (première execution et suivantes)
+let isCatlatogEmpty = true;
+
 // Appeller la fonction pour le status d'authentification
 authStatus();
 
@@ -46,6 +49,7 @@ async function getData(route, url) {
 };
 getData('works', worksUrl);
 getData('cat', catUrl);
+
 
 
 function targetPostForm() {
@@ -107,19 +111,20 @@ function postWork(worksUrl) {
       return response.text();
     })
 
-    // TODO : voir comment au résult du Post ne pas recharger le DOM
+
     .then(result => {
       console.log(result);
     })
 
     .catch(error => console.log('error', error));
 
+  hideAddPicModal()
+
 };
 
 
 
-// ! fonction de contrôle (première execution et suivantes)
-let isCatlatogEmpty = true;
+
 
 function populateCatalog(data) {
 
@@ -154,10 +159,18 @@ function insertIntoCatalog(collection, obj) {
   // Insérer le code HTML dans les containers Figure
   element.innerHTML = `<img src="${obj.imageUrl}" alt="${obj.title}"> <figcaption>${obj.title}</figcaption>`;
   // ajouter la classe avec l'id de catégory aux figures pour les filtrer avec le CSS
-  element.classList.add('works', `cat-id-${obj.category.id}`)
+  element.classList.add('works', `cat-id-${obj.category.id}`);
+
+  // insérer l'id dans la balise HTML pour le cibler plus tard
+  element.id = obj.id;
+
   // ajouter au container stocké dans collection les elements figure
   collection.appendChild(element);
-}
+};
+
+
+
+
 
 
 function createEditGallery() {
@@ -169,6 +182,8 @@ function createEditGallery() {
   let divElement = document.createElement('div');
   divElement = document.createElement('div');
   divElement.id = 'js-div-edit-gallery';
+  //  Ajout de la classe modal-1-1 pour passer en display-none
+  divElement.className = "js-modal-1-1";
   // Insérer le <div>
   titleModal.insertAdjacentElement('afterend', divElement);
 };
@@ -228,7 +243,7 @@ function targetDeleteWorkBtn() {
 function deleteWork(id) {
 
   // let deleteBtn = document.getElementById('js-delete-work-btn')
-  // console.log(deleteBtn);
+  // console.log();
 
   let bearerToken = getTokenValue();
   console.log(bearerToken);
@@ -249,16 +264,55 @@ function deleteWork(id) {
 
 
 
-  let workToDelete = worksUrl +  id + '?id=' + id
+  let workToDelete = worksUrl + id + '?id=' + id
   // let workToDelete2 = worksUrl + id + '?id=' + id
 
   console.log(workToDelete)
 
   fetch(workToDelete, requestOptions) // il faut récupérer la valeur de id pour l'inclure à l'URL (/15?id=15")
-    .then(response => response.text())
-    .then(result => console.log(result))
+
+    .then(response => {
+      hideDeletedWork (id); 
+      // getData('works', worksUrl);
+      return response.text();
+    })
+
+
+    .then(result => {
+      console.log(result)
+    })
+
     .catch(error => console.log('error', error));
 
+    // masquer l'élément du DOM pour voir sans recharger la page
+    hideDeletedWork (id); 
+
+};
+
+
+
+function hideDeletedWork (id) {
+  // console.log(id)
+
+  // Target l'element dans la modale avec son id
+  // Comme c'est le bouton qui a l'id , on utilise la méthode closest chainé à au QuerySelector.
+  const workElementModal = document.querySelector(`.js-modal-figure button[id="${id}"]`)
+    .closest('.js-modal-figure');
+
+  // Masquer l'élément
+  workElementModal.style = "display:none";
+
+
+  // Target l'element dans le Catalog  avec son id ;
+  const workElementCatalog = document.querySelector(`#collection`)
+    .querySelector(`[id="${id}"]`)
+
+  // ! Comprendre pourquoi il y a 2 sorties console !
+  console.log(workElementCatalog)
+
+  workElementCatalog.style = "display:none";
+
+            
 };
 
 
@@ -282,6 +336,8 @@ function showModal() {
   modalWrapper.style = "display : block";
 };
 
+
+// TODO : Faire en sorte qu'au clic en dehors de la modale, elle se ferme aussi
 function targetCloseModalBtn() {
   // cibler le bouton de fermeture de la modale
   let btnCloseModal = document.querySelector('.js-close-modal');
@@ -305,7 +361,7 @@ function targetAddPicBtn() {
 };
 targetAddPicBtn();
 
-
+// TODO : Masquer aussi le bouton "Ajouter une Photo" et le "séparateur"
 function hideGalleryModal() {
   console.log('masquer la gallerie de la modale');
   let titleModal = document.getElementById('title-modal');
@@ -314,6 +370,10 @@ function hideGalleryModal() {
   // Passer en display:none le div EditGallery
   let divElement = document.querySelector('#js-div-edit-gallery')
   divElement.style = "display:none";
+
+  let element = document.querySelectorAll('.js-modal-1-1');
+  console.log(element);
+
 };
 
 function hideAddPicModal() {
