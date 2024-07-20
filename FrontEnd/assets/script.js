@@ -1,5 +1,6 @@
 import { showTopBanner, authStatus, verifyToken, addEditButon, getTokenValue } from "./shared.js";
 
+
 // URLs de l'API
 const worksUrl = 'http://localhost:5678/api/works/';
 const catUrl = 'http://localhost:5678/api/categories';
@@ -54,8 +55,8 @@ function targetPostForm() {
 
     // Ajouter un écouteur sur la soumission du formulaire
     form.addEventListener('submit', (event) => {
-      event.preventDefault(); 
-      postWork(worksUrl); 
+      event.preventDefault();
+      postWork(worksUrl);
     });
   });
 };
@@ -101,8 +102,7 @@ function postWork(worksUrl) {
   // Déclencher la requête avec Fetch
   fetch(worksUrl, requestOptions)
 
-    .then(response => {   
-      // ! Attention ici, la fonction getData ajoute TOUS les projets au DOM. Il faudrait ajouter simplement le nouveau projet.
+    .then(response => {
       getData('works', worksUrl);
       return response.text();
     })
@@ -118,22 +118,47 @@ function postWork(worksUrl) {
 
 
 
+// ! fonction de contrôle (première execution et suivantes)
+let isCatlatogEmpty = true;
 
 function populateCatalog(data) {
-  // Boucler sur chaque objet et les afficher sur la page
-  data.forEach(obj => {
-    // Cibler le container où insérer les éléments et le stocker dans collection
-    let collection = document.querySelector("#collection")
-    // Crée un container Figure
-    let element = document.createElement('figure');
-    // Insérer le code HTML dans les containers Figure
-    element.innerHTML = `<img src="${obj.imageUrl}" alt="${obj.title}"> <figcaption>${obj.title}</figcaption>`;
-    // ajouter la classe avec l'id de catégory aux figures pour les filtrer avec le CSS
-    element.classList.add('works', `cat-id-${obj.category.id}`)
-    // ajouter au container stocké dans collection les elements figure
-    collection.appendChild(element);
-  });
+
+  // Cibler le container où insérer les éléments et le stocker dans collection
+  let collection = document.querySelector("#collection");
+
+  // Vérifier si le catalogue est vide
+  if (isCatlatogEmpty === true) {
+    // Boucler sur chaque objet et les afficher sur la page
+    data.forEach(obj => {
+      // apeller la fonction d'insertion
+      insertIntoCatalog(collection, obj);
+    });
+    // Changer l'état de la variable pour les prochaines executions
+    isCatlatogEmpty = false;
+    console.log(isCatlatogEmpty)
+
+    // Si le catalogue est rempli, ajouter uniquement le dernier obj de data
+  } else {
+    let lastWork = data[data.length - 1];
+    console.log(lastWork);
+    insertIntoCatalog(collection, lastWork);
+  }
+
 };
+
+
+
+function insertIntoCatalog(collection, obj) {
+  // Crée un container Figure
+  let element = document.createElement('figure');
+  // Insérer le code HTML dans les containers Figure
+  element.innerHTML = `<img src="${obj.imageUrl}" alt="${obj.title}"> <figcaption>${obj.title}</figcaption>`;
+  // ajouter la classe avec l'id de catégory aux figures pour les filtrer avec le CSS
+  element.classList.add('works', `cat-id-${obj.category.id}`)
+  // ajouter au container stocké dans collection les elements figure
+  collection.appendChild(element);
+}
+
 
 function createEditGallery() {
   // Sélectionner le titre avec l'ID 'title-modal'
