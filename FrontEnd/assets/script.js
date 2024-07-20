@@ -181,18 +181,13 @@ function populateModal(data) {
     // Crée un container Figure
     let element = document.createElement('figure');
     element.className = 'js-modal-figure';
-    // ! Attention code en dur ! 
-    // element.innerHTML = `<a href="${obj.category.id}"><i id="js-delete-work-btn" class="fa-solid fa-trash-can overlay-icon"></i></a><img src="${obj.imageUrl}" alt="${obj.title}">`;
-    // element.innerHTML = `<a href="http://localhost:5678/api/works/${obj.category.id}?id=${obj.category.id}"><i id="js-delete-work-btn" class="fa-solid fa-trash-can overlay-icon"></i></a><img src="${obj.imageUrl}" alt="${obj.title}">`;
+
     element.innerHTML = `
-      <button class="js-delete-work-btn" id="${obj.id}">
-        <i class="fa-solid fa-trash-can overlay-icon"></i>
+      <button class="js-delete-work-btn delete-btn-icon" id="${obj.id}">
+        <i class="fa-solid fa-trash-can"></i>
       </button>
       <img src="${obj.imageUrl}" alt="${obj.title}">`;
-
     modalWrapper.appendChild(element);
-
-
 
   });
 
@@ -206,14 +201,22 @@ function targetDeleteWorkBtn() {
   deleteBtn.forEach(btn => {
     btn.addEventListener('click', (event) => {
       event.preventDefault();
+
       // récupérer l'élément qui a déclenché l'event
       let deleteBtnClicked = event.target;
+
+      // capturer aussi l'ID du bouton 
+      if (deleteBtnClicked.tagName === 'I') {
+        deleteBtnClicked = deleteBtnClicked.parentElement;
+        console.log(deleteBtnClicked.parentElement);
+      }
 
       // extraire la valeur de l'id
       let btnId = deleteBtnClicked.id;
 
       // TODO : Confirmation de suppression ?
-      // console.log('voulez vous supprimer ?  ' + btnId);
+      console.log(deleteBtnClicked)
+      console.log('voulez vous supprimer ?  ' + btnId);
 
       // envoi de l'id catégorie à la fonction de supression
       deleteWork(btnId);
@@ -246,7 +249,10 @@ function deleteWork(id) {
 
 
 
-  let workToDelete = worksUrl + '/' + id + '?id=' + id
+  let workToDelete = worksUrl +  id + '?id=' + id
+  // let workToDelete2 = worksUrl + id + '?id=' + id
+
+  console.log(workToDelete)
 
   fetch(workToDelete, requestOptions) // il faut récupérer la valeur de id pour l'inclure à l'URL (/15?id=15")
     .then(response => response.text())

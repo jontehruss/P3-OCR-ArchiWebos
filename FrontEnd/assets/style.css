@@ -81,7 +81,7 @@ body {
 	/* border: solid red; */
 }
 
-.overlay-icon {
+.delete-btn-icon {
 	position: absolute;
 	top: 10px;
 	right: 10px;
@@ -90,6 +90,13 @@ body {
 	background-color: black;
 	padding: 4px;
 	border-radius: 4px;
+}
+
+
+
+.delete-btn-icon:hover {
+	color: rgb(255, 255, 255);
+	background-color: rgba(175, 11, 11, 0.976);
 }
 
 
