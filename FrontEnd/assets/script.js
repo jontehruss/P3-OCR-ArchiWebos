@@ -5,7 +5,7 @@ import { showTopBanner, authStatus, verifyToken, addEditButon, getTokenValue } f
 const worksUrl = 'http://localhost:5678/api/works/';
 const catUrl = 'http://localhost:5678/api/categories';
 
-// ! Variable utilisée pour fonction de contrôle post upload work (première execution et suivantes)
+// Variable utilisée pour contrôle sur post upload work
 let isCatlatogEmpty = true;
 
 // Appeller la fonction pour le status d'authentification
@@ -16,20 +16,20 @@ showTopBanner();
 
 // Par défaut Masquer la modale
 hideModal();
-hideAddPicModal();
+hideFormAddPicModal();
 
 
 function checkAuthStatus() {
   //  Chercher le token dans le local storage
   if (verifyToken()) {
-    console.log(verifyToken())
+    // console.log(verifyToken())
     // console.log('utilisateur authentifié')
     addEditButon();
-    // hideFilters();
+
   } else {
     return
   }
-}
+};
 checkAuthStatus();
 
 // Fonction Assynchrone pour récupérer les datas de l'API et les rendre globales
@@ -39,7 +39,6 @@ async function getData(route, url) {
   let data = await response.json();
   if (route === 'works') {
     // envoyer les datas dans la fonction pour afficher les works
-    // ! Attention, à l'upload d'un Work, doublon de TOUS les projest dans le DOM
     populateCatalog(data);
     populateModal(data);
   } else if (route === 'cat') {
@@ -69,17 +68,11 @@ targetPostForm();
 
 // collecter les données du formulaire et les envoyer à l'URL spécifiée
 function postWork(worksUrl) {
-
   // cibler le formulaire
   let form = document.getElementById('post-form');
 
   // stocker dans le formData les donées du formulaire
   let formData = new FormData(form);
-
-  // //  avec la méthode forEach il est possible de parcourir les valeurs récupérées
-  // formData.forEach((value, key) => {
-  //   console.log(key, value);
-  // });
 
   // Préparer le header de la requête
   // récupérer la valeur du token dans le local storage
@@ -91,10 +84,6 @@ function postWork(worksUrl) {
     "Authorization",
     "Bearer " + bearerToken
   );
-  // //  avec la méthode forEach il est possible de parcourir les valeurs récupérées
-  // headers.forEach((value, key) => {
-  //   console.log(key, value);
-  // });
 
   // Préparer les options et le body de la requête
   let requestOptions = {
@@ -108,26 +97,37 @@ function postWork(worksUrl) {
 
     .then(response => {
       getData('works', worksUrl);
+      
+      hideFormAddPicModal();    
+      retabBtnModal();
+
       return response.text();
     })
 
 
     .then(result => {
-      console.log(result);
+      // console.log(result);
     })
 
     .catch(error => console.log('error', error));
-
-  hideAddPicModal()
-
 };
 
 
+function retabBtnModal() {
+  //  Cibler le séparateur et le bouton ajouter photo de la modale
+  let separator = document.querySelector('.modal-separator')
+  let addPicBtn = document.querySelector('.btn-modal')
 
+  // Remplacer display:none par flex
+  separator.style = "display: flex"; 
+  addPicBtn.style = "display: flex"; 
+
+  // Rappel de showModal() pour réablir le div controles (back/close) 
+  showModal();
+};
 
 
 function populateCatalog(data) {
-
   // Cibler le container où insérer les éléments et le stocker dans collection
   let collection = document.querySelector("#collection");
 
@@ -140,17 +140,13 @@ function populateCatalog(data) {
     });
     // Changer l'état de la variable pour les prochaines executions
     isCatlatogEmpty = false;
-    console.log(isCatlatogEmpty)
 
     // Si le catalogue est rempli, ajouter uniquement le dernier obj de data
   } else {
     let lastWork = data[data.length - 1];
-    console.log(lastWork);
     insertIntoCatalog(collection, lastWork);
   }
-
 };
-
 
 
 function insertIntoCatalog(collection, obj) {
@@ -169,10 +165,6 @@ function insertIntoCatalog(collection, obj) {
 };
 
 
-
-
-
-
 function createEditGallery() {
   // Sélectionner le titre avec l'ID 'title-modal'
   let titleModal = document.getElementById('title-modal');
@@ -189,7 +181,6 @@ function createEditGallery() {
 };
 
 function populateModal(data) {
-
   createEditGallery();
   data.forEach(obj => {
     let modalWrapper = document.querySelector('#js-div-edit-gallery');
@@ -203,12 +194,9 @@ function populateModal(data) {
       </button>
       <img src="${obj.imageUrl}" alt="${obj.title}">`;
     modalWrapper.appendChild(element);
-
   });
-
   targetDeleteWorkBtn();
 };
-
 
 function targetDeleteWorkBtn() {
   let deleteBtn = document.querySelectorAll('.js-delete-work-btn');
@@ -223,18 +211,13 @@ function targetDeleteWorkBtn() {
       // capturer aussi l'ID du bouton 
       if (deleteBtnClicked.tagName === 'I') {
         deleteBtnClicked = deleteBtnClicked.parentElement;
-        console.log(deleteBtnClicked.parentElement);
       }
-
       // extraire la valeur de l'id
       let btnId = deleteBtnClicked.id;
 
       // TODO : Confirmation de suppression ?
-      console.log(deleteBtnClicked)
       console.log('voulez vous supprimer ?  ' + btnId);
-
       // envoi de l'id catégorie à la fonction de supression
-      deleteWork(btnId);
     })
   })
 };
@@ -242,11 +225,7 @@ function targetDeleteWorkBtn() {
 
 function deleteWork(id) {
 
-  // let deleteBtn = document.getElementById('js-delete-work-btn')
-  // console.log();
-
   let bearerToken = getTokenValue();
-  console.log(bearerToken);
 
   let headers = new Headers();
   headers.append(
@@ -254,46 +233,34 @@ function deleteWork(id) {
     "Bearer " + bearerToken
   );
 
-
   let requestOptions = {
     method: 'DELETE',
     headers: headers,
     body: '',
-    // redirect: 'follow'
   };
 
-
-
   let workToDelete = worksUrl + id + '?id=' + id
-  // let workToDelete2 = worksUrl + id + '?id=' + id
 
-  console.log(workToDelete)
-
-  fetch(workToDelete, requestOptions) // il faut récupérer la valeur de id pour l'inclure à l'URL (/15?id=15")
+  fetch(workToDelete, requestOptions) // * il faut récupérer la valeur de id pour l'inclure à l'URL (/15?id=15")
 
     .then(response => {
       hideDeletedWork(id);
-      // getData('works', worksUrl);
       return response.text();
     })
 
-
     .then(result => {
-      console.log(result)
+      // console.log(result)
     })
 
     .catch(error => console.log('error', error));
 
   // masquer l'élément du DOM pour voir sans recharger la page
   hideDeletedWork(id);
-
 };
 
 
 
 function hideDeletedWork(id) {
-  // console.log(id)
-
   // Target l'element dans la modale avec son id
   // Comme c'est le bouton qui a l'id , on utilise la méthode closest chainé à au QuerySelector.
   const workElementModal = document.querySelector(`.js-modal-figure button[id="${id}"]`)
@@ -301,7 +268,6 @@ function hideDeletedWork(id) {
 
   // Masquer l'élément
   workElementModal.style = "display:none";
-
 
   // Target l'element dans le Catalog  avec son id ;
   const workElementCatalog = document.querySelector(`#collection`)
@@ -311,8 +277,6 @@ function hideDeletedWork(id) {
   console.log(workElementCatalog)
 
   workElementCatalog.style = "display:none";
-
-
 };
 
 
@@ -332,7 +296,6 @@ targetEditBtn();
 
 
 function showModal() {
-  console.log('appel de la fonction showModal()')
   let modalWrapper = document.querySelector('#modal')
   modalWrapper.style = "display : block";
 
@@ -343,12 +306,7 @@ function showModal() {
   // aligner le bouton close sur la vue modal 1-2
   let closeBtn = document.querySelector('.controls-modal');
   closeBtn.style = "flex-direction: row-reverse;"
-
-
 };
-
-
-
 
 
 // TODO : Faire en sorte qu'au clic en dehors de la modale, elle se ferme aussi
@@ -370,14 +328,14 @@ function targetAddPicBtn() {
     // au clic appeller la fonction pour masquer la première vue de la modale
     hideGalleryModal();
     // et appeller la fonction pur afficher le formulaire d'import dans la modale
-    showAddPicModal();
+    showFormAddPicModal();
   });
 };
 targetAddPicBtn();
 
 
 function hideGalleryModal() {
-  console.log('masquer la gallerie de la modale');
+
   let titleModal = document.getElementById('title-modal');
   // Injecter le titre de la seconde vue
   titleModal.innerText = "Ajout photo";
@@ -386,17 +344,14 @@ function hideGalleryModal() {
   divElement.style = "display:none";
 
   let element = document.querySelectorAll('.js-modal-1-1');
-  console.log(element);
-
 };
 
-function hideAddPicModal() {
+function hideFormAddPicModal() {
   let formElement = document.querySelector('.form-upload-work');
   formElement.style = 'display:none';
-
 };
 
-function showAddPicModal() {
+function showFormAddPicModal() {
   let formElement = document.querySelector('.form-upload-work');
   formElement.style = 'display:flex';
 
@@ -407,11 +362,9 @@ function showAddPicModal() {
     element.style.display = 'none';
   });
 
-  // TODO : ré afficher la flèche back
   // cibler le bouton back flèche
   let backBtn = document.querySelector('.js-back-modal');
   backBtn.style.display = 'flex';
-  console.log('coucou')
 
   // aligner le bouton close sur la vue modal 1-2
   let closeBtn = document.querySelector('.controls-modal');
@@ -419,24 +372,18 @@ function showAddPicModal() {
 
   // revenir à la vue 1 de la modale
   backBtn.addEventListener('click', () => {
-    console.log('appeler la fonction pour rétablir !!');
     retabInitModal(backBtn, closeBtn, formElement, elementsToHide)
   });
 };
 
 
-// ! ICIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 function retabInitModal(backBtn, closeBtn, formElement, elementsToHide) {
 
   backBtn.style.display = 'none';
-  console.log('caché !')
-
   closeBtn.style = "flex-direction: row-reverse;"
-
   formElement.style = 'display:none';
-
   elementsToHide.forEach((element) => {
-    console.log(element)
+
     element.style.display = 'flex';
   });
 
@@ -449,8 +396,6 @@ function retabInitModal(backBtn, closeBtn, formElement, elementsToHide) {
   divElement.style = "display:flex";
 
 };
-
-// BREAK AUTOSAVE `
 
 
 function hideModal() {
@@ -469,7 +414,7 @@ function createFilters(data) {
   all.type = 'button';
   all.value = 'Tous';
   all.className = 'btn-cat';
-  all.id = '0'
+  all.id = '0';
   zoneFiltres.appendChild(all);
 
   // créer un bouton pour chaque catégorie
@@ -477,7 +422,6 @@ function createFilters(data) {
     let bouton = document.createElement('input');
     bouton.type = 'button';
     bouton.value = data[i].name;
-    console.log(data[i].name)
     bouton.className = 'btn-cat';
     bouton.id = data[i].id;
     zoneFiltres.appendChild(bouton);
