@@ -60,24 +60,39 @@
 			<!-- Formulaire masqué par défaut -->
 			<form id="post-form" class="form-upload-work" action="/submit" method="post" enctype="multipart/form-data">
 				<div id="modal-img-placeholder">
-					<label for="image">jpg, png : 4mo max</label>
-					<input type="file" id="upload-photo" name="image" placeholder="+ Ajouter une photo"
-						accept=".jpg, .jpeg, .png" required>
-					<!-- <div class="file-input-placeholder"></div> -->
+					<!-- Todo : Ajouter image -->
+					<img id="preview-image" src="assets\icons\placeholder.svg" alt="Prévisualisation">
+					
+					<div>
+						<input type="file" id="upload-photo" name="image" placeholder="+ Ajouter une photo"	accept=".jpg, .jpeg, .png" required>
+					</div>
+					<!-- Créer un div pour afficher l'image choise -->
+					<div id="preview-file"></div>
+					
+					
+					
+						<label for="image">jpg, png : 4mo max</label>
+
 				</div>
 
 				<div id="modal-form-fields">
-					<label for="title">Titre</label>
-					<input type="text" id="title" name="title" value="test" required>
+					
+					<label for="title" class="label-field-addpic">Titre</label>
+					
+					<input type="text" class="field-input-modal" id="title" name="title" value="test" required>
 
-					<label for="category">Catégorie</label>
-					<select id="category" name="category" required>
+					<label for="category" class="label-field-addpic">Catégorie</label>
+					
+					<select class="field-input-modal" id="category" name="category" required>
 						<option value="1">Objets</option>
 						<option value="2">Appartements</option>
 						<option value="3">Hotels & Restaurants</option>
 					</select>
+					
 				</div>
-				<button type="submit" id="submit-work-btn">Valider</button>
+				<!-- TODO : modifier le style du html -->
+				<hr class="modal-separator modal-1-2" style="display: flex;">
+				<button type="submit" id="submit-work-btn" class="btn-modal">Valider</button>
 			</form>
 
 

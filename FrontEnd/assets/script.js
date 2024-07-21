@@ -97,8 +97,8 @@ function postWork(worksUrl) {
 
     .then(response => {
       getData('works', worksUrl);
-      
-      hideFormAddPicModal();    
+
+      hideFormAddPicModal();
       retabBtnModal();
 
       return response.text();
@@ -119,8 +119,8 @@ function retabBtnModal() {
   let addPicBtn = document.querySelector('.btn-modal')
 
   // Remplacer display:none par flex
-  separator.style = "display: flex"; 
-  addPicBtn.style = "display: flex"; 
+  separator.style = "display: flex";
+  addPicBtn.style = "display: flex";
 
   // Rappel de showModal() pour réablir le div controles (back/close) 
   showModal();
@@ -218,6 +218,7 @@ function targetDeleteWorkBtn() {
       // TODO : Confirmation de suppression ?
       console.log('voulez vous supprimer ?  ' + btnId);
       // envoi de l'id catégorie à la fonction de supression
+      deleteWork(btnId);
     })
   })
 };
@@ -481,3 +482,57 @@ function hideWorks(id) {
   }
   );
 };
+
+
+// TODO : Placeholder Image Preview
+
+function targetInputForPreview() {
+  let inputImg = document.querySelector('#upload-photo')
+
+  inputImg.addEventListener('change', function () {
+    previewThumbnail(inputImg.files[0]);
+    // debugger
+    // console.log(previewThumbnail(inputImg.files[0]))
+  });
+}
+targetInputForPreview();
+
+
+function previewThumbnail(file) {
+  console.log(file);
+  // Crée un système pour écouter la lecture de fichier par le navigateur
+  let reader = new FileReader();
+  
+  console.log(reader)
+
+  reader.addEventListener('load', function (event) {
+    let imgUpload = document.createElement('img')
+    console.log(imgUpload);
+    imgUpload.src = event.target.result;
+
+    // Ajouter la nouvelle image au conteneur de prévisualisation
+    let previewImage = document.querySelector('#preview-image');
+    previewImage.appendChild(imgUpload);
+    console.log(event.target.result);
+
+    // // Effacer les images précédentes
+    // let previewContainer = document.getElementById('preview-image');
+    // previewContainer.innerHTML = ''; // Effacer les anciennes images
+
+
+    // previewContainer.appendChild(imgUpload);
+
+    // Lire le fichier en tant qu'URL de données
+    reader.readAsDataURL(file);
+
+    // Initialiser le ciblage de l'input pour la prévisualisation
+    document.addEventListener('DOMContentLoaded', function () {
+      targetInputForPreview();
+    });
+
+    // document.getElementById('preview-image').appendChild(imgUpload)
+
+  });
+
+  // imgUpload.readAsDataURL()
+}
