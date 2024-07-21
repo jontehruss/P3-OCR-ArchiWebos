@@ -89,6 +89,7 @@ body {
 	color: white;
 	background-color: black;
 	padding: 4px;
+	border: none;
 	border-radius: 4px;
 }
 
@@ -152,14 +153,20 @@ body {
 	/* border: solid red; */
 }
 
-.js-close-modal{
-    background-color: rgba(0, 0, 0, 0);
-    border: none;
+.controls-modal {
     display: flex;
-    flex-direction: row-reverse;
-	margin-top: 10px;
+    flex-direction: row;
+    margin-top: 10px;
+    justify-content: space-between;
+}
+
+.controls-modal button {
+	background-color: rgba(0, 0, 0, 0);
+    border: none;
     font-size: x-large;
 }
+
+
 
 /* TODO - Finaliser la mise en forme */
 

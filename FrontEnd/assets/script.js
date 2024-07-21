@@ -272,7 +272,7 @@ function deleteWork(id) {
   fetch(workToDelete, requestOptions) // il faut récupérer la valeur de id pour l'inclure à l'URL (/15?id=15")
 
     .then(response => {
-      hideDeletedWork (id); 
+      hideDeletedWork(id);
       // getData('works', worksUrl);
       return response.text();
     })
@@ -284,14 +284,14 @@ function deleteWork(id) {
 
     .catch(error => console.log('error', error));
 
-    // masquer l'élément du DOM pour voir sans recharger la page
-    hideDeletedWork (id); 
+  // masquer l'élément du DOM pour voir sans recharger la page
+  hideDeletedWork(id);
 
 };
 
 
 
-function hideDeletedWork (id) {
+function hideDeletedWork(id) {
   // console.log(id)
 
   // Target l'element dans la modale avec son id
@@ -312,7 +312,7 @@ function hideDeletedWork (id) {
 
   workElementCatalog.style = "display:none";
 
-            
+
 };
 
 
@@ -332,9 +332,23 @@ targetEditBtn();
 
 
 function showModal() {
+  console.log('appel de la fonction showModal()')
   let modalWrapper = document.querySelector('#modal')
   modalWrapper.style = "display : block";
+
+  // cibler le bouton back flèche
+  let backBtn = document.querySelector('.js-back-modal');
+  backBtn.style.display = 'none';
+
+  // aligner le bouton close sur la vue modal 1-2
+  let closeBtn = document.querySelector('.controls-modal');
+  closeBtn.style = "flex-direction: row-reverse;"
+
+
 };
+
+
+
 
 
 // TODO : Faire en sorte qu'au clic en dehors de la modale, elle se ferme aussi
@@ -361,7 +375,7 @@ function targetAddPicBtn() {
 };
 targetAddPicBtn();
 
-// TODO : Masquer aussi le bouton "Ajouter une Photo" et le "séparateur"
+
 function hideGalleryModal() {
   console.log('masquer la gallerie de la modale');
   let titleModal = document.getElementById('title-modal');
@@ -379,12 +393,64 @@ function hideGalleryModal() {
 function hideAddPicModal() {
   let formElement = document.querySelector('.form-upload-work');
   formElement.style = 'display:none';
+
 };
 
 function showAddPicModal() {
   let formElement = document.querySelector('.form-upload-work');
   formElement.style = 'display:flex';
+
+  // cibler les éléments class modal-1-2 et les passer en display:none
+  let elementsToHide = document.querySelectorAll('.modal-1-2');
+
+  elementsToHide.forEach((element) => {
+    element.style.display = 'none';
+  });
+
+  // TODO : ré afficher la flèche back
+  // cibler le bouton back flèche
+  let backBtn = document.querySelector('.js-back-modal');
+  backBtn.style.display = 'flex';
+  console.log('coucou')
+
+  // aligner le bouton close sur la vue modal 1-2
+  let closeBtn = document.querySelector('.controls-modal');
+  closeBtn.style = "flex-direction: row;"
+
+  // revenir à la vue 1 de la modale
+  backBtn.addEventListener('click', () => {
+    console.log('appeler la fonction pour rétablir !!');
+    retabInitModal(backBtn, closeBtn, formElement, elementsToHide)
+  });
 };
+
+
+// ! ICIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+function retabInitModal(backBtn, closeBtn, formElement, elementsToHide) {
+
+  backBtn.style.display = 'none';
+  console.log('caché !')
+
+  closeBtn.style = "flex-direction: row-reverse;"
+
+  formElement.style = 'display:none';
+
+  elementsToHide.forEach((element) => {
+    console.log(element)
+    element.style.display = 'flex';
+  });
+
+  // todo : checker ce code pour réafficher la galerie
+  let titleModal = document.getElementById('title-modal');
+  // Injecter le titre de la première vue
+  titleModal.innerText = "Galerie photo";
+  // Passer en display:none le div EditGallery
+  let divElement = document.querySelector('#js-div-edit-gallery')
+  divElement.style = "display:flex";
+
+};
+
+// BREAK AUTOSAVE `
 
 
 function hideModal() {

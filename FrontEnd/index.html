@@ -41,21 +41,28 @@
 
 		<div id="modal-wrapper" class="modal-wrapper">
 
-			<button class="js-close-modal">
-				<i class="fa-solid fa-xmark js-close-modal"></i>
-			</button>
+			<div class="controls-modal">
+				<button class="js-back-modal">
+					<i class="fa-solid fa-arrow-left"></i>
+				</button>
+				<button class="js-close-modal">
+					<i class="fa-solid fa-xmark js-close-modal"></i>
+				</button>
+			</div>
+
 
 			<h3 id="title-modal"></h3>
 
 			<!-- Bouton ajout photo + séparateur -->
-			<hr class="modal-separator js-modal-1-1">
-			<button class="btn-modal">Ajouter une photo</button>
+			<hr class="modal-separator modal-1-2">
+			<button class="btn-modal modal-1-2">Ajouter une photo</button>
 
 			<!-- Formulaire masqué par défaut -->
 			<form id="post-form" class="form-upload-work" action="/submit" method="post" enctype="multipart/form-data">
-				<div id="modal-img-placeholder" >
+				<div id="modal-img-placeholder">
 					<label for="image">jpg, png : 4mo max</label>
-					<input type="file" id="upload-photo" name="image" placeholder="+ Ajouter une photo" accept=".jpg, .jpeg, .png" required>
+					<input type="file" id="upload-photo" name="image" placeholder="+ Ajouter une photo"
+						accept=".jpg, .jpeg, .png" required>
 					<!-- <div class="file-input-placeholder"></div> -->
 				</div>
 
