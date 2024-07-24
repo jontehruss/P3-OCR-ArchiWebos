@@ -85,12 +85,18 @@ function postWork(worksUrl) {
     "Bearer " + bearerToken
   );
 
+  console.log(headers)
+
   // Préparer les options et le body de la requête
   let requestOptions = {
     method: 'POST',
     headers: headers,
     body: formData, // injecter dans le body les valeurs du formulaire
   };
+
+  console.log(requestOptions)
+
+  console.log(worksUrl)
 
   // Déclencher la requête avec Fetch
   fetch(worksUrl, requestOptions)
@@ -112,6 +118,7 @@ function postWork(worksUrl) {
     .catch(error => console.log('error', error));
 };
 
+console.log()
 
 function retabBtnModal() {
   //  Cibler le séparateur et le bouton ajouter photo de la modale
@@ -214,9 +221,9 @@ function targetDeleteWorkBtn() {
       }
       // extraire la valeur de l'id
       let btnId = deleteBtnClicked.id;
-
+console.log(deleteBtnClicked)
       // TODO : Confirmation de suppression ?
-      console.log('voulez vous supprimer ?  ' + btnId);
+      alert(`Trop tard c'est supprimé !`);
       // envoi de l'id catégorie à la fonction de supression
       deleteWork(btnId);
     })
@@ -487,10 +494,13 @@ function hideWorks(id) {
 // TODO : Placeholder Image Preview
 
 function targetInputForPreview() {
+  // Target le div dans lequel l'image du file upload sera affichée en preview 
+  let divPreviewImg = document.getElementById('modal-img-placeholder');
+
   let inputImg = document.querySelector('#upload-photo')
 
   inputImg.addEventListener('change', function () {
-    previewThumbnail(inputImg.files[0]);
+    previewThumbnail(inputImg.files[0], divPreviewImg);
     // debugger
     // console.log(previewThumbnail(inputImg.files[0]))
   });
@@ -498,41 +508,69 @@ function targetInputForPreview() {
 targetInputForPreview();
 
 
-function previewThumbnail(file) {
-  console.log(file);
+function previewThumbnail(file, divPreviewImg) {
+  console.log(file, divPreviewImg);
   // Crée un système pour écouter la lecture de fichier par le navigateur
-  let reader = new FileReader();
-  
-  console.log(reader)
 
-  reader.addEventListener('load', function (event) {
-    let imgUpload = document.createElement('img')
-    console.log(imgUpload);
-    imgUpload.src = event.target.result;
+  // 
+  let img = document.createElement('img')
+  // divPreviewImg.appendChild(img);
 
-    // Ajouter la nouvelle image au conteneur de prévisualisation
-    let previewImage = document.querySelector('#preview-image');
-    previewImage.appendChild(imgUpload);
-    console.log(event.target.result);
+  // créer une instance de fileReader
+  let reader = new FileReader(file);
 
-    // // Effacer les images précédentes
-    // let previewContainer = document.getElementById('preview-image');
-    // previewContainer.innerHTML = ''; // Effacer les anciennes images
+  console.log(typeof reader)
+
+// est un événement de l'objet FileReader déclenché à la fin du chargement
+  reader.onload = function (event) {
+    // // Mettre à jour l'élément image avec la miniature lue
+    img.src = event.target.result
 
 
-    // previewContainer.appendChild(imgUpload);
+    // TODO : Il faut garder le DIV et ne pas le remplacer lui mais les elements qu'il contient ! 
+    let parent = divPreviewImg.parentNode;
+    parent.replaceChild(img, divPreviewImg);
+    img.style = "height: 193px; max-width:129px; object-fit: cover;"
+    
+  };
 
-    // Lire le fichier en tant qu'URL de données
-    reader.readAsDataURL(file);
+  // Lire le fichier en tant qu'URL de données
+  // renvoie l'image en base64
+  reader.readAsDataURL(file);
 
-    // Initialiser le ciblage de l'input pour la prévisualisation
-    document.addEventListener('DOMContentLoaded', function () {
-      targetInputForPreview();
-    });
 
-    // document.getElementById('preview-image').appendChild(imgUpload)
 
-  });
+
+
+  // reader.addEventListener('load', function (event) {
+  //   let imgUpload = document.createElement('img')
+  //   console.log(imgUpload);
+  //   imgUpload.src = event.target.result;
+
+  //   // Ajouter la nouvelle image au conteneur de prévisualisation
+  //   let previewImage = document.querySelector('#preview-image');
+  //   previewImage.appendChild(imgUpload);
+  //   console.log(event.target.result);
+
+
+  // // Effacer les images précédentes
+  // let previewContainer = document.getElementById('preview-image');
+  // previewContainer.innerHTML = ''; // Effacer les anciennes images
+
+
+  // previewContainer.appendChild(imgUpload);
+
+
+
+ console.log(reader);
+  // // Initialiser le ciblage de l'input pour la prévisualisation
+  // document.addEventListener('DOMContentLoaded', function () {
+  //   targetInputForPreview();
+  // });
+
+  // // document.getElementById('preview-image').appendChild(imgUpload)
+
+
 
   // imgUpload.readAsDataURL()
 }
