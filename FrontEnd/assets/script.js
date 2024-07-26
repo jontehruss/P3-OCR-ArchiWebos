@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
       navAuthStatus.innerHTML = `<a href="./index.html">logout</a>`;
 
       navAuthStatus.addEventListener('click', (event) => {
-        event.preventDefault(); 
+        // event.preventDefault(); 
         removeToken();
       })
 
@@ -68,11 +68,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function addEditButon() {
     let editBtn = document.createElement('p');
-    editBtn.innerHTML = '<a href="#" class="js-open-modal"><i class="fa-regular fa-pen-to-square"></i>MODE Édition</a> ';
+    editBtn.innerHTML = '<a href="#" class="js-open-modal"><i class="fa-regular fa-pen-to-square"></i> modifier</a> ';
 
     let titleEdit = document.querySelector('#title-projet > h2');
 
     titleEdit.insertAdjacentElement('afterend', editBtn);
+    titleEdit.classList = ('js-project-title')
   };
 
   function createTopBanner() {
@@ -568,7 +569,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let titrePortfolio = document.querySelector('#portfolio > div');
     // insèrer après titrePortfolio sans l'imbriquer à l'intérieur avec insertAdjacentElement afterend
     titrePortfolio.insertAdjacentElement('afterend', zoneFiltres);
-
+    filterBtnClor(0)
     filterWorks();
     hideFilters(zoneFiltres);
   };
@@ -582,10 +583,61 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 0; i < TableauBoutonsFiltre.length; i++) {
       TableauBoutonsFiltre[i].addEventListener('click', function () {
         hideWorks(i);
+        filterBtnClor(i);
       });
     };
   };
 
+  //  TODO : Faire en sorte que le cas 
+  function filterBtnClor(i) {
+    // avec l'id appliquer des règles CSS en fonction du bouton cliqué 
+    const active = "color: black; background-color: white;border: solid #1D6154;";
+    const passive = "color: white; background-color: #1D6154;border: solid white;";
+
+    const btnAll = document.querySelector('.btn-cat#\\30');
+    const btnObj = document.querySelector('.btn-cat#\\31');
+    const btnFlat = document.querySelector('.btn-cat#\\32');
+    const btnHotel = document.querySelector('.btn-cat#\\33');
+    switch (i) {
+      case 0:
+        i = 0
+        // console.log(i)
+        // console.log(btnAll)
+        btnAll.style = passive
+        btnObj.style = active
+        btnFlat.style = active
+        btnHotel.style = active
+        break;
+      case 1:
+        i = 1
+        // console.log(i)
+        // console.log(btnObj)
+        btnAll.style = active
+        btnObj.style = passive
+        btnFlat.style = active
+        btnHotel.style = active
+        break;
+      case 2:
+        i = 2
+        // console.log(i)
+        // console.log(btnFlat)
+        btnAll.style = active
+        btnObj.style = active
+        btnFlat.style = passive
+        btnHotel.style = active
+        break;
+      case 3:
+        i = 3
+        // console.log(i)
+        // console.log(btnHotel)
+        btnAll.style = active
+        btnObj.style = active
+        btnFlat.style = active
+        btnHotel.style = passive
+        break;
+      default:
+    }
+  }
 
   function hideFilters() {
     if (verifyToken() === true) {

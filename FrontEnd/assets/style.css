@@ -107,9 +107,21 @@ section {
 	display: block;
 }
 
+html, body {
+	height: 100%;
+	margin: 0;
+  }
+
 body {
-	line-height: 1;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
 }
+
+main {
+	flex: 1;
+	padding: 20px;
+  }
 
 ol,
 ul {
@@ -148,6 +160,8 @@ body {
 * {
 	box-sizing: border-box;
 }
+
+
 
 /* TODO - boite Modal */
 
@@ -254,10 +268,10 @@ body {
 /* TODO - Finaliser la mise en forme */
 
 #title-projet {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    flex-direction: row;
 }
 
 /* masquer le bandeau edit */
@@ -278,6 +292,8 @@ body {
 
 .top-banner-edit a {
 	color: white;
+	font-family: 'Work Sans';
+    text-decoration: none;
 }
 
 .top-banner-edit a:hover {
@@ -323,7 +339,6 @@ nav ul {
 	display: flex;
 	align-items: center;
 	list-style-type: none;
-
 }
 
 nav li {
@@ -333,7 +348,25 @@ nav li {
 
 li:hover {
 	color: #B1663C;
+	text-decoration: none;
 }
+
+nav > * {
+	color : black;
+	text-decoration: none;
+}
+
+nav > ul > li > a { 
+	text-decoration: none;
+	color: black;
+}
+
+
+nav > ul > li > a:hover { 
+	text-decoration: none;
+	color: #B1663C;
+}
+
 
 #introduction {
 	display: flex;
@@ -367,6 +400,19 @@ li:hover {
 	margin-bottom: 1em;
 }
 
+#reset-password-link {
+	display:flex;
+	justify-content: center;
+	color: black;
+    font-family: 'Work Sans';
+	font-weight: 500;
+    font-size: larger;
+	text-decoration: underline;
+}
+
+.login-page-link{
+	font-weight : 700;
+}
 
 /* 
  TODO - Vérifier le bon affichage des boutons 
@@ -379,8 +425,9 @@ li:hover {
 .btn-cat {
 	font-family: 'Syne';
 	font-weight: 700;
-	color: white;
-	background-color: #1D6154;
+	color: black;
+	/* background-color: #1D6154; */
+	background-color: white;
 	margin: 2em 0.5em;
 	width: auto;
 	padding: 1em 1em 2em 1em;
@@ -388,9 +435,10 @@ li:hover {
 	border-radius: 60px;
 	height: 50px;
 	font-size: 1.2em;
-	border: solid white;
+	border: solid #1D6154;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
+
 
 .btn-cat:hover {
 	color: black;
@@ -419,6 +467,21 @@ li:hover {
 	color: black;
 	background-color: white;
 	border: solid #1D6154;
+}
+
+
+.js-open-modal {
+	color: black;
+    font-family: 'Work Sans';
+    font-weight: 500;
+}
+
+.js-project-title {
+	/* font-family: 'Syne';
+    font-weight: 700;
+    font-size: 30px;
+    color: #1D6154; */
+    margin: 0px 25px 0px 100px;
 }
 
 /* TODO : mise en page formulaire upload modale */
@@ -548,14 +611,17 @@ li:hover {
 }
 
 #contact h2 {
-	margin-bottom: 20px;
+    margin-bottom: 10px;
+    margin-top: 70px;
 }
 
 #contact form {
-	text-align: left;
-	margin-top: 30px;
-	display: flex;
-	flex-direction: column;
+    text-align: left;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    color: #3d3d3d;
 }
 
 #contact input {
@@ -580,10 +646,19 @@ input[type="submit"] {
 	color: white;
 	background-color: #1D6154;
 	margin: 2em auto;
-	width: 180px;
+	width: 220px;
 	text-align: center;
 	border-radius: 60px;
 }
+
+
+
+footer {
+	/* position: absolute;
+	bottom: 8px;
+	right: 16px;
+	font-size: 18px; */
+  }
 
 footer nav ul {
 	display: flex;
