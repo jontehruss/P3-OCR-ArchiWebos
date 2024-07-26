@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Sophie Bluel - Architecte d'intérieur</title>
+	<title>#Sophie Bluel - Architecte d'intérieur</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,10 +13,11 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
 		rel="stylesheet">
 	<meta name="description" content="">
+	<!-- CSS file -->
 	<link rel="stylesheet" href="./assets/style.css">
-	<!-- Script JS -->
-	<script src="./assets/script.js" type="module" defer></script>
-	<script src="./assets/shared.js" type="module" defer></script>
+	<!-- Script INDEX JS -->
+	<script src="./assets/script.js" defer></script>
+
 </head>
 
 <body>
@@ -33,14 +34,10 @@
 		</nav>
 	</header>
 
-
-
-
 	<!-- MODALE -->
 	<asside id="modal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="title-modal">
 
 		<div id="modal-wrapper" class="modal-wrapper">
-
 			<div class="controls-modal">
 				<button class="js-back-modal">
 					<i class="fa-solid fa-arrow-left"></i>
@@ -50,53 +47,37 @@
 				</button>
 			</div>
 
-
 			<h3 id="title-modal"></h3>
 
 			<!-- Bouton ajout photo + séparateur -->
 			<hr class="modal-separator modal-1-2">
 			<button class="btn-modal modal-1-2">Ajouter une photo</button>
 
-			<!-- Formulaire masqué par défaut -->
-			<form id="post-form" class="form-upload-work" action="/submit" method="post" enctype="multipart/form-data">
+			<form id="post-form" class="form-upload-work" method="post" enctype="multipart/form-data">
 				<div id="modal-img-placeholder">
-					<!-- Todo : Ajouter image -->
-					<img id="preview-image" src="assets\icons\placeholder.svg" alt="Prévisualisation">
+				  <img id="image-preview" src="assets/icons/placeholder.svg" alt="Prévisualisation">
+				  <div>
+					<input type="file" id="upload-photo" name="image" placeholder="+ Ajouter une photo" accept=".jpg, .jpeg, .png" required>
 					
-					<div>
-						<input type="file" id="upload-photo" name="image" placeholder="+ Ajouter une photo"	accept=".jpg, .jpeg, .png" required>
-					</div>
-					<!-- Créer un div pour afficher l'image choise -->
-					<div id="preview-file"></div>
-					
-					
-					
-						<label for="image">jpg, png : 4mo max</label>
-
+				  </div>
+				  
+				
 				</div>
-
 				<div id="modal-form-fields">
-					
-					<label for="title" class="label-field-addpic">Titre</label>
-					
-					<input type="text" class="field-input-modal" id="title" name="title" value="test" required>
-
-					<label for="category" class="label-field-addpic">Catégorie</label>
-					
-					<select class="field-input-modal" id="category" name="category" required>
-						<option value="1">Objets</option>
-						<option value="2">Appartements</option>
-						<option value="3">Hotels & Restaurants</option>
-					</select>
-					
+				  <label for="title" class="label-field-addpic">Titre</label>
+				  <input type="text" class="field-input-modal" id="title" name="title" required>
+				  <label for="category" class="label-field-addpic">Catégorie</label>
+				  <select class="field-input-modal" id="category" name="category" required>
+					<option value="1">Objets</option>
+					<option value="2">Appartements</option>
+					<option value="3">Hotels & Restaurants</option>
+				  </select>
 				</div>
-				<!-- TODO : modifier le style du html -->
 				<hr class="modal-separator modal-1-2" style="display: flex;">
 				<button type="submit" id="submit-work-btn" class="btn-modal">Valider</button>
-			</form>
-
-
-
+			  </form>
+			
+			
 		</div>
 
 		<div>
@@ -127,7 +108,7 @@
 		</section>
 		<section id="portfolio">
 
-			<!-- TODO : Insertion dynamique avec une fonction dans shared.js -->
+
 			<div id="title-projet">
 				<h2>Mes Projets</h2>
 

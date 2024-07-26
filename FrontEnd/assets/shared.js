@@ -1,16 +1,17 @@
-// Attribuer une classe au container HTML pour qu'il s'affiche avec ses règles CSS
-export function showTopBanner() {
+// ! Ajustement Live Serveur - Non utilisable à cause du rechargement de page
+// ! Le contenu du script shared.js est déplacé vers "script.js" pour éviter les erreurs CORS
 
+
+// Attribuer une classe au container HTML pour qu'il s'affiche avec ses règles CSS
+// ! Ok
+export function showTopBanner() {
     let token = localStorage.getItem('bearerToken');
     // Vérifier la présence du Token 
-    /** 
-     * TODO : Améliorer la vérification du token ?
-     */
     if (token) {
         createTopBanner();
     }
 };
-
+//  ! OK
 function createTopBanner() {
     // Verifier si le Div existe déjà (car empilement si plusieurs clics sur 'Se connecter')
     if (document.querySelector('.top-banner-edit')) {
@@ -30,8 +31,8 @@ function createTopBanner() {
     let body = document.getElementsByTagName('body')[0];
     html.insertBefore(topBanner, body);
 };
-
-export function addEditButon () {
+//  ! OK
+export function addEditButon() {
     // 
     let editBtn = document.createElement('p');
     editBtn.innerHTML = '<a href="#" class="js-open-modal"><i class="fa-regular fa-pen-to-square"></i>MODE Édition</a> ';
@@ -41,36 +42,38 @@ export function addEditButon () {
     titleEdit.insertAdjacentElement('afterend', editBtn);
 };
 
-
+// ! OK
 // Vérifier si le Token est présent dans localStorage
-export function verifyToken () {
+export function verifyToken() {
     // renvoyer true ou false
     return localStorage.getItem('bearerToken') !== null;
 };
 
-export function removeToken () {
+//! OK
+export function removeToken() {
     localStorage.removeItem('bearerToken');
 };
 
+// ! OK
 //  fonction pour vérifier le statut via la présence du token 
 // et modifier le menu de nav login/logout en ajoutant un écouteur pour retirer le token sur logout
-export function authStatus () {
+export function authStatus() {
     let navAuthStatus = document.getElementById('auth-status');
-    if(verifyToken()) {
+    if (verifyToken()) {
         // navAuthStatus.textContent = 'logout';
         navAuthStatus.innerHTML = `<a href="./index.html">logout</a>`;
 
-        navAuthStatus.addEventListener('click' , (event) => {
+        navAuthStatus.addEventListener('click', (event) => {
             // event.preventDefault(); 
-            removeToken();       
+            removeToken();
         })
 
     } else {
-        navAuthStatus.innerHTML = `<a href="./assets/login.html">login</a>`;       
+        navAuthStatus.innerHTML = `<a href="./assets/login.html">login</a>`;
     }
 };
 
-
+// ! OK
 // fonction pour récupérer la valeur du Token 
 export function getTokenValue() {
     if (verifyToken()) {
