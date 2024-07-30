@@ -5,6 +5,11 @@ const catUrl = 'http://localhost:5678/api/categories';
 // Variable utilisée pour contrôle sur post upload work
 let isCatlatogEmpty = true;
 
+let isAddPicFormView = false;
+
+// ! test pour contrôle de l'état de la modale
+let isModalhidden = true;
+
 //  Ajout d'un écouteur global sur la page pour attendre que tout le contenu soit chargé avant d'executer les fonctions
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -125,16 +130,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   function targetPostForm() {
-    document.addEventListener('DOMContentLoaded', () => {
-      // Sélectionner le formulaire
-      let form = document.getElementById('post-form');
+    // Sélectionner le formulaire
+    let form = document.getElementById('post-form');
 
-      // Ajouter un écouteur sur la soumission du formulaire
-      form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        postWork(worksUrl);
+    // Ajouter un écouteur sur la soumission du formulaire
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      postWork(worksUrl);
 
-      });
     });
   };
   targetPostForm();
@@ -224,6 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
         getData('works', worksUrl);
         hideFormAddPicModal();
         retabBtnModal();
+        hideModalBackBtn();
       })
 
       .catch(error => console.error('Error:', error));
@@ -428,6 +432,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // aligner le bouton close sur la vue modal 1-2
     let closeBtn = document.querySelector('.controls-modal');
     closeBtn.style = "flex-direction: row-reverse;"
+
+    // si la valeur est à true, il faut afficher la flèche retour car on est sur la vue 2-2
+    if (isAddPicFormView === true) {
+      backBtn.style.display = 'flex';
+      closeBtn.style = "flex-direction: row;"
+    }
+
+    // Activer le ciblage des clicks en dehors de la modale
+    // targetOutsideModalClose();
+
   };
 
 
@@ -444,9 +458,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   function targetAddPicBtn() {
-    // cibler le bouton d'ajout de photo dans la modale
+    // cibler le bouton "ajouter une photo" dans la modale vue 1-2
     let btnAddPic = document.querySelector('.btn-modal');
     btnAddPic.addEventListener('click', () => {
+      // conserver l'information de la vue modale 1-1 ou 1-2
+      isAddPicFormView = true;
+
+      console.log(isAddPicFormView);
+
       // au clic appeller la fonction pour masquer la première vue de la modale
       hideGalleryModal();
       // et appeller la fonction pur afficher le formulaire d'import dans la modale
@@ -464,14 +483,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // Passer en display:none le div EditGallery
     let divElement = document.querySelector('#js-div-edit-gallery')
     divElement.style = "display:none";
-
-    // ! pas utilisé ? 
-    let element = document.querySelectorAll('.js-modal-1-1');
   };
 
   function hideFormAddPicModal() {
     let formElement = document.querySelector('.form-upload-work');
     formElement.style = 'display:none';
+  };
+
+  function hideModalBackBtn() {
+    console.log('coucou')
+    // masquer la flèche retour
+    let backBtn = document.querySelector('.js-back-modal');
+    // console.log(backBtn)
+    backBtn.style.display = "none";
+
+    // aligner le bouton close sur la vue modal 1-2
+    let closeBtn = document.querySelector('.controls-modal');
+    closeBtn.style = "flex-direction: row-reverse;"
   };
 
   function showFormAddPicModal() {
@@ -496,6 +524,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // revenir à la vue 1 de la modale
     backBtn.addEventListener('click', (event) => {
       event.preventDefault();
+
+      // conserver l'information de la vue, (false indique que l'on retourne à la vue initiale de la modale)
+      isAddPicFormView = false;
+
+      console.log(isAddPicFormView);
       retabInitModal(backBtn, closeBtn, formElement, elementsToHide);
 
     });
@@ -536,11 +569,56 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   function hideModal() {
+
     let modalWrapper = document.querySelector('#modal')
-    if (modalWrapper) {
-      modalWrapper.style = "display : none";
-    }
+    modalWrapper.style = "display : none";
+
+
+    targetEditBtn();
+
+
   };
+
+  // function targetOutsideModalClose() {
+  //   //  Afficher les infos du clic
+  //   // window.onclick = function (event) {
+  //   //   console.log(event.target)
+  //   // };
+
+  //   console.log('targetOutsideModalClose')
+
+  //   //  TODO : Fermer la modale au clic à l'extérieur
+  //   document.addEventListener("click", function (event) {
+  //     event.preventDefault();
+
+  //     // debugger
+  //     // * ici contrôle si la modale est masquée, et executer le code uniquement si elle est visible.
+
+  //     console.log(isModalhidden)
+
+  //     // Si isModalHidden = false on rentre dans le if
+  //     if (!isModalhidden) {
+  //       if (event.target.matches(".js-close-modal") || !event.target.closest(".modal")) {
+  //         console.log('cliqué en dehors de la modale !');
+  //         // ! quand cette fonction est apellée ici, impossible d'ouvrir la fenêtre modale
+  //         hideModal();
+  //         isModalhidden = true;
+  //       }
+  //       // Si isModalHidden = true on rentre dans le else
+  //     } else {
+  //       showModal();
+  //       console.log('cliqué dans la modale');
+  //       isModalhidden = false;
+  //     }         
+
+  //     console.log(isModalhidden)
+
+  //     document.removeEventListener('click', function (event) {
+  //       event.preventDefault();
+  //     })
+
+  //   });
+  // };
 
 
   function createFilters(data) {
@@ -677,108 +755,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // TODO : Placeholder Image Preview
 
-  // function previewImage() {
-  //   let imageInput = document.getElementById('upload-photo');
-  //   let preview = document.getElementById('image-preview');
+  function previewImage() {
+    // cibler le bouton d'upload image
+    let imageInput = document.getElementById('upload-photo');
+    // cibler l'element pour insérer l'image prévisualisée
+    let preview = document.getElementById('image-preview');
 
-  //   if (imageInput && preview) {
-  //     imageInput.addEventListener('change', (event) => {
-  //       const file = event.target.files[0];
-  //       if (file) {
-  //         const reader = new FileReader();
-  //         reader.onload = (e) => {
-  //           preview.src = e.target.result;
-  //           preview.style.display = 'block';
-  //         };
-  //         reader.readAsDataURL(file);
-  //       } else {
-  //         preview.style.display = 'none';
-  //       }
-  //     });
-  //   }
-  // }
-  // previewImage();
+    if (imageInput && preview) {
+      // écouter le changement sur imageInput
+      imageInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          // quand le fichier est sélectionné
+          // créer un fileReader
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            preview.src = event.target.result;
+            preview.style.display = 'block';
+            imageInput.style = 'display:none';
+          };
+          // récupération de l'image en base 64 pour lecture via le navigateur
+          reader.readAsDataURL(file);
+        } else {
+          preview.style.display = 'none';
+        }
+      });
+    }
+  }
+  previewImage();
 
-  // function targetInputForPreview() {
-  //   // Target le div dans lequel l'image du file upload sera affichée en preview 
-  //   let divPreviewImg = document.getElementById('modal-img-placeholder');
-
-  //   let inputImg = document.querySelector('#upload-photo')
-
-  //   inputImg.addEventListener('change', function () {
-  //     previewThumbnail(inputImg.files[0], divPreviewImg);
-  //     // debugger
-  //     // console.log(previewThumbnail(inputImg.files[0]))
-  //   });
-  // }
-  // targetInputForPreview();
-
-
-  // function previewThumbnail(file, divPreviewImg) {
-  //   console.log(file, divPreviewImg);
-  //   // Crée un système pour écouter la lecture de fichier par le navigateur
-
-  //   // 
-  //   let img = document.createElement('img')
-  //   // divPreviewImg.appendChild(img);
-
-  //   // créer une instance de fileReader
-  //   let reader = new FileReader(file);
-
-  //   console.log(typeof reader)
-
-  //   // est un événement de l'objet FileReader déclenché à la fin du chargement
-  //   reader.onload = function (event) {
-  //     // // Mettre à jour l'élément image avec la miniature lue
-  //     img.src = event.target.result
-
-
-  //     // TODO : Il faut garder le DIV et ne pas le remplacer lui mais les elements qu'il contient ! 
-  //     let parent = divPreviewImg.parentNode;
-  //     parent.replaceChild(img, divPreviewImg);
-  //     img.style = "height: 193px; max-width:129px; object-fit: cover;"
-
-  //   };
-
-  //   // Lire le fichier en tant qu'URL de données
-  //   // renvoie l'image en base64
-  //   reader.readAsDataURL(file);
-
-
-
-
-
-  //   // reader.addEventListener('load', function (event) {
-  //   //   let imgUpload = document.createElement('img')
-  //   //   console.log(imgUpload);
-  //   //   imgUpload.src = event.target.result;
-
-  //   //   // Ajouter la nouvelle image au conteneur de prévisualisation
-  //   //   let previewImage = document.querySelector('#preview-image');
-  //   //   previewImage.appendChild(imgUpload);
-  //   //   console.log(event.target.result);
-
-
-  //   // // Effacer les images précédentes
-  //   // let previewContainer = document.getElementById('preview-image');
-  //   // previewContainer.innerHTML = ''; // Effacer les anciennes images
-
-
-  //   // previewContainer.appendChild(imgUpload);
-
-
-
-  //   console.log(reader);
-  //   // // Initialiser le ciblage de l'input pour la prévisualisation
-  //   // document.addEventListener('DOMContentLoaded', function () {
-  //   //   targetInputForPreview();
-  //   // });
-
-  //   // // document.getElementById('preview-image').appendChild(imgUpload)
-
-
-
-  //   // imgUpload.readAsDataURL()
-  // }
 
 });
