@@ -138,13 +138,18 @@ document.addEventListener('DOMContentLoaded', () => {
       event.preventDefault();
       postWork(worksUrl);
 
+      // ! nettoyage du formulaire
+      formReset(form);
+
+
+
     });
   };
   targetPostForm();
 
 
   // collecter les données du formulaire et les envoyer à l'URL spécifiée
-  function postWork(worksUrl) {
+  function postWork(worksUrl, form) {
 
     // créer une variable formData pour stocker les donées du formulaire
     let formData = new FormData();
@@ -228,6 +233,8 @@ document.addEventListener('DOMContentLoaded', () => {
         hideFormAddPicModal();
         retabBtnModal();
         hideModalBackBtn();
+        // form.reset();
+
       })
 
       .catch(error => console.error('Error:', error));
@@ -761,8 +768,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // cibler l'element pour insérer l'image prévisualisée
     let preview = document.getElementById('image-preview');
 
+    let customInputBtn = document.querySelector('.input-upload-photo')
+
+    let inputFileInfos = document.querySelector('.file-type-info')
+
     if (imageInput && preview) {
       // écouter le changement sur imageInput
+
+
       imageInput.addEventListener('change', (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -773,16 +786,67 @@ document.addEventListener('DOMContentLoaded', () => {
             preview.src = event.target.result;
             preview.style.display = 'block';
             imageInput.style = 'display:none';
+            customInputBtn.style = 'display:none';
+            inputFileInfos.style = 'display:none';
+            console.log(reader)
           };
           // récupération de l'image en base 64 pour lecture via le navigateur
           reader.readAsDataURL(file);
+
         } else {
           preview.style.display = 'none';
         }
+
       });
     }
   }
-  previewImage();
 
+
+
+  function replaceFileInputDefault() {
+
+    let customInputBtn = document.querySelector('.input-upload-photo')
+
+    let inputFileInfos = document.querySelector('.file-type-info')
+
+    // let classicInputBtn = document.querySelector('#upload-photo')
+
+
+    customInputBtn.addEventListener('click', function () {
+      document.querySelector('#upload-photo')
+        //simuler un clic sur le classicInput
+        .click()
+      // customInputBtn.style.display = "none";
+      // inputFileInfos.style.display = "none";
+
+      previewImage();
+
+
+    })
+  };
+  replaceFileInputDefault();
+
+  function formReset(form) {
+
+    form.reset(form);
+
+    function restoreFileInput() {
+      let imgPreview = document.querySelector('#image-preview')
+      imgPreview.src = "assets/icons/placeholder.svg";
+      imgPreview.style = "display:block;margin: 0px;";
+
+      let customInputBtn = document.querySelector('.input-upload-photo')
+      customInputBtn.style = "display:block; margin: 0px";
+
+
+      let inputFileInfos = document.querySelector('.file-type-info')
+      inputFileInfos.style = "display:block; margin: 0px";
+
+    };
+    restoreFileInput();
+
+
+
+  };
 
 });
