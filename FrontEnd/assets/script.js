@@ -175,11 +175,15 @@ document.addEventListener('DOMContentLoaded', () => {
       formData.append('category', categorySelect.value);
     }
 
-    // ! vérifier les données ajoutées ua formulaire
-    // On parcours les valeurs des paires key/values des entrées du formulaire 
-    for (let [key, values] of formData.entries()) {
-      console.log(key, values);
-    }
+    // Vérifier le poids de l'image envoyée
+    let fileKey = 'image';
+    let file = formData.get(fileKey)
+
+    if (file instanceof File && file.size > 400000 ) {
+      alert(`Le fichier dépasse la poids maximum de 4mo`)
+      return
+    };
+
 
     // Préparer le header de la requête
     // récupérer la valeur du token dans le local storage
@@ -786,6 +790,7 @@ document.addEventListener('DOMContentLoaded', () => {
           };
           // récupération de l'image en base 64 pour lecture via le navigateur
           reader.readAsDataURL(file);
+          // console.log(reader.result);
 
         } else {
           preview.style.display = 'none';
@@ -838,8 +843,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     };
     restoreFileInput();
-
-
 
   };
 
