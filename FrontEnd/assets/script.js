@@ -4,7 +4,6 @@ const catUrl = 'http://localhost:5678/api/categories';
 
 // Variable utilisée pour contrôle sur post upload work
 let isCatlatogEmpty = true;
-
 let isAddPicFormView = false;
 
 // ! test pour contrôle de l'état de la modale
@@ -47,14 +46,10 @@ document.addEventListener('DOMContentLoaded', () => {
   function authStatus() {
     let navAuthStatus = document.getElementById('auth-status');
     if (verifyToken()) {
-      // navAuthStatus.textContent = 'logout';
       navAuthStatus.innerHTML = `<a href="./index.html">logout</a>`;
-
       navAuthStatus.addEventListener('click', (event) => {
-        // event.preventDefault(); 
         removeToken();
       })
-
     } else {
       navAuthStatus.innerHTML = `<a href="./assets/login.html">login</a>`;
     }
@@ -64,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
     //  Chercher le token dans le local storage
     if (verifyToken()) {
       addEditButon();
-
     } else {
       return
     }
@@ -149,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // collecter les données du formulaire et les envoyer à l'URL spécifiée
-  function postWork(worksUrl, form) {
+  function postWork(worksUrl) {
 
     // créer une variable formData pour stocker les donées du formulaire
     let formData = new FormData();
