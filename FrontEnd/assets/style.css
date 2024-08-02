@@ -155,32 +155,22 @@ body {
 }
 
 
-/* Intérêt à vérifier box-sizing */
-
 * {
 	box-sizing: border-box;
 }
 
-
-
-/* TODO - boite Modal */
 
 #title-modal {
 	display: flex;
 	font-size: 26px;
 	font-weight: 500;
 	color: black;
-	/* padding: 0 0 0px 0; */
-	/* border: solid green; */
 	flex-direction: row;
 	justify-content: center;
 }
 
 .js-modal-figure {
-	/* position: relative pour positionner
-	l'élément child avec position: absolute */
 	position: relative;
-	/* border: solid red; */
 }
 
 .delete-btn-icon {
@@ -194,7 +184,6 @@ body {
 	border: none;
 	border-radius: 4px;
 }
-
 
 
 .delete-btn-icon:hover {
@@ -211,18 +200,15 @@ body {
 	height: 700px;
 	background: rgb(255, 255, 255);
 	transform: translate(-50%, -50%);
-	/* déplace la fenêtre modale vers le haut et vers la gauche de la moitié de ses proportions */
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 	border-radius: 8px;
 	padding: 20px;
 }
 
-/* conteneur de la modale  */
-/* TODO : réglage de la taille de la modale */
+
 .modal-wrapper {
 	overflow: auto;
 	background-color: rgb(255, 255, 255);
-	/* border: dashed lightgray; */
 	width: 100%;
 	height: 100%;
 	padding: 15px 15px;
@@ -265,8 +251,6 @@ body {
 
 
 
-/* TODO - Finaliser la mise en forme */
-
 #title-projet {
     display: flex;
     align-items: baseline;
@@ -274,12 +258,11 @@ body {
     flex-direction: row;
 }
 
-/* masquer le bandeau edit */
 .edit-none {
 	display: none;
 }
 
-/* à afficher uniquement quand le token est présent dans le local storage */
+
 .top-banner-edit {
 	background-color: black;
 	color: white;
@@ -418,19 +401,15 @@ nav > ul > li > a:hover {
 	font-weight : 700;
 }
 
-/* 
- TODO - Vérifier le bon affichage des boutons 
-*/
+
 .btn-list {
 	text-align: center;
-
 }
 
 .btn-cat {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: black;
-	/* background-color: #1D6154; */
 	background-color: white;
 	margin: 2em 0.5em;
 	width: auto;
@@ -481,10 +460,6 @@ nav > ul > li > a:hover {
 }
 
 .js-project-title {
-	/* font-family: 'Syne';
-    font-weight: 700;
-    font-size: 30px;
-    color: #1D6154; */
     margin: 0px 25px 0px 100px;
 }
 
@@ -493,7 +468,6 @@ nav > ul > li > a:hover {
 	margin: 35px 65px 0px 65px;
 	flex-direction: column;
 	align-items: center;
-	/* border: solid yellowgreen; */
 }
 
 #modal-img-placeholder {
@@ -501,7 +475,6 @@ nav > ul > li > a:hover {
     text-align: center;
     background-color: #e8f0f8;
     border-radius: 8px;
-    /* padding: 20px 0px; */
     margin-bottom: 20px;
     width: 100%;
     height: 170px;
@@ -523,7 +496,6 @@ nav > ul > li > a:hover {
     text-align: center;
 }
 
-/* TODO : corriger mise en Forme */
 .input-upload-photo {
 	align-self: center;
 
@@ -557,24 +529,12 @@ nav > ul > li > a:hover {
 	margin-bottom: 20px;
 }
 
-/* #modal-img-placeholder button:hover {
-	color: black;
-	background-color: white;
-	border: solid #1D6154;
-} */
-
-
 
 #modal-form-fields {
-	/* border: solid rgb(44, 170, 238); */
-
 	display: flex;
 	flex-direction: column;
 	width: 100%;
 }
-
-
-
 
 
 .label-field-addpic {
@@ -597,7 +557,6 @@ nav > ul > li > a:hover {
 
 
 #modal-form-fields > * {
-	/* Styles à appliquer aux enfants directs */
 	margin: 5px 0px 5px 0px;
 }
 
@@ -610,16 +569,11 @@ nav > ul > li > a:hover {
 }
 
 
-
 .form-upload-work button {
 
     margin: 50px auto;
     background-color: #A7A7A7;
 }
-
-
-
-
 
 
 .gallery {
@@ -637,7 +591,6 @@ nav > ul > li > a:hover {
 	max-height: 505px;
 	object-fit: cover;
 }
-
 
 
 #contact {
@@ -691,14 +644,6 @@ input[type="submit"] {
 	border-radius: 60px;
 }
 
-
-
-footer {
-	/* position: absolute;
-	bottom: 8px;
-	right: 16px;
-	font-size: 18px; */
-  }
 
 footer nav ul {
 	display: flex;
